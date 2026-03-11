@@ -28,13 +28,13 @@
 - **Commit:** `4f4ba68`
 
 ### 0.3 — Dev tooling & utilities
-- [ ] Set up `serve.mjs` (static dev server at localhost:3000) if not using `next dev`
-- [ ] Set up `screenshot.mjs` + Puppeteer for visual testing
-- [ ] Verify screenshot workflow: start server → screenshot → read PNG
-- [ ] **Tests:**
+- [x] Set up `serve.mjs` (wraps `next dev` at localhost:3000 with port-in-use check)
+- [x] Set up `screenshot.mjs` + Puppeteer for visual testing
+- [x] Verify screenshot workflow: start server → screenshot → read PNG
+- [x] **Tests:**
   - Dev server starts and responds on `http://localhost:3000`
   - Screenshot saves to `./temporary screenshots/`
-- **Commit:**
+- **Commit:** `09d1231`
 
 ---
 
