@@ -55,9 +55,22 @@
 ## Git & Version Control Rules
 - Never commit with failing tests
 - Never use `git add .` — always stage specific files relevant to the feature
+- Never commit directly to `master` — always work on a section branch
 - Commit message format: `feat: <what was built and tested>`
 - Record the commit hash in `progress.md` when marking a task complete
-- Push only when explicitly instructed, or after 3+ commits have accumulated
+
+## Branching Strategy
+- One branch per section in `progress.md` (e.g. all tasks in 1.1, then PR, then 1.2)
+- Branch naming: `phase-X/X.Y-short-description`
+  - Example: `phase-1/1.1-seeded-prng`
+  - Example: `phase-2/2.1-grid-component`
+- Always branch off the latest `master`:
+  `git checkout master && git pull && git checkout -b branch-name`
+- Commit all tasks within the section to this branch as they complete
+- When all tasks in the section are green and committed, push the branch:
+  `git push origin branch-name`
+- Then STOP — do not merge, do not start the next section
+- Notify the user that the branch is ready for PR review
 
 ---
 
@@ -134,3 +147,5 @@
 - Do not commit with failing tests
 - Do not use `git add .`
 - Do not mark tasks complete in `progress.md` without a passing test and a commit hash
+- Do not commit or push directly to `master`
+- Do not start the next section after pushing a branch — stop and wait for PR review
