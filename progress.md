@@ -8,14 +8,14 @@
 ## Phase 0: Project Scaffolding
 
 ### 0.1 — Initialize Next.js + TypeScript project
-- [ ] Create Next.js app with App Router, TypeScript, Tailwind CSS
-- [ ] Install core dependencies: Zustand, tRPC, Supabase client
-- [ ] Configure `tsconfig.json` path aliases (`@/`)
-- [ ] Set up project folder structure per PRD (`/app`, `/components`, `/server`, `/lib`)
-- [ ] **Tests:**
+- [x] Create Next.js app with App Router, TypeScript, Tailwind CSS
+- [x] Install core dependencies: Zustand, tRPC, Supabase client
+- [x] Configure `tsconfig.json` path aliases (`@/`)
+- [x] Set up project folder structure per PRD (`/app`, `/components`, `/server`, `/lib`)
+- [x] **Tests:**
   - `npm run build` completes without errors
   - `npm run dev` starts without errors
-- **Commit:**
+- **Commit:** `a760851`
 
 ### 0.2 — Testing infrastructure
 - [ ] Install and configure Jest + ts-jest for unit/integration tests
