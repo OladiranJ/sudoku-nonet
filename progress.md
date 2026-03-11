@@ -41,13 +41,13 @@
 ## Phase 1: Puzzle Engine (Pure Logic)
 
 ### 1.1 — Seeded random number generator
-- [ ] Implement a deterministic PRNG that accepts a string seed
-- [ ] Same seed always produces the same sequence of numbers
-- [ ] **Tests (`lib/sudoku/prng.test.ts`):**
+- [x] Implement a deterministic PRNG that accepts a string seed
+- [x] Same seed always produces the same sequence of numbers
+- [x] **Tests (`lib/sudoku/prng.test.ts`):**
   - Same seed → identical output sequence (run twice, compare)
   - Different seeds → different output sequences
   - Output is deterministic across 1000+ calls
-- **Commit:**
+- **Commit:** `4364b0a`
 
 ### 1.2 — Sudoku board generator
 - [ ] Generate a valid, fully-filled 9×9 Sudoku board from a seed
