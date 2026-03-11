@@ -20,6 +20,7 @@
     "@trpc/server": "^11.12.0",
     "next": "^16.1.6",
     "postcss": "^8.5.8",
+    "puppeteer": "^24.39.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "tailwindcss": "^4.2.1",
