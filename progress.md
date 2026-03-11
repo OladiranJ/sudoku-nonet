@@ -59,14 +59,14 @@
 - **Commit:** `54439e8`
 
 ### 1.3 — Puzzle creator (clue removal)
-- [ ] Remove digits from a filled board to create a puzzle with a unique solution
-- [ ] Difficulty controls clue count: Easy ~45, Medium ~35, Hard ~27, Expert ~22
-- [ ] Uniqueness verified via backtracking solver during generation
-- [ ] **Tests (`lib/sudoku/puzzle.test.ts`):**
+- [x] Remove digits from a filled board to create a puzzle with a unique solution
+- [x] Difficulty controls clue count: Easy ~45, Medium ~35, Hard ~27, Expert ~22
+- [x] Uniqueness verified via backtracking solver during generation
+- [x] **Tests (`lib/sudoku/puzzle.test.ts`):**
   - Each difficulty produces clue count within ±3 of target
   - Every generated puzzle has exactly one solution (test 5 puzzles per difficulty)
   - Same seed + difficulty → identical puzzle
-- **Commit:**
+- **Commit:** `7e97821`
 
 ### 1.4 — Sudoku solver
 - [ ] Backtracking solver that finds all solutions (up to a limit of 2, for uniqueness check)
