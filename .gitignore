@@ -22,6 +22,10 @@ next-env.d.ts
 # screenshots
 temporary screenshots/
 
+# playwright
+playwright-report/
+test-results/
+
 # misc
 .DS_Store
 *.pem

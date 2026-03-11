@@ -18,14 +18,14 @@
 - **Commit:** `a760851`
 
 ### 0.2 — Testing infrastructure
-- [ ] Install and configure Jest + ts-jest for unit/integration tests
-- [ ] Install and configure Playwright for E2E tests
-- [ ] Add `npm test`, `npm run test:coverage`, and Playwright scripts to `package.json`
-- [ ] Create a trivial smoke test to verify the pipeline works
-- [ ] **Tests:**
+- [x] Install and configure Jest + ts-jest for unit/integration tests
+- [x] Install and configure Playwright for E2E tests
+- [x] Add `npm test`, `npm run test:coverage`, and Playwright scripts to `package.json`
+- [x] Create a trivial smoke test to verify the pipeline works
+- [x] **Tests:**
   - `smoke.test.ts` — dummy assertion passes via `npm test`
   - `npx playwright test` runs without config errors
-- **Commit:**
+- **Commit:** `4f4ba68`
 
 ### 0.3 — Dev tooling & utilities
 - [ ] Set up `serve.mjs` (static dev server at localhost:3000) if not using `next dev`
