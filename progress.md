@@ -50,13 +50,13 @@
 - **Commit:** `4364b0a`
 
 ### 1.2 — Sudoku board generator
-- [ ] Generate a valid, fully-filled 9×9 Sudoku board from a seed
-- [ ] Every row, column, and 3×3 box contains digits 1–9 exactly once
-- [ ] **Tests (`lib/sudoku/generator.test.ts`):**
+- [x] Generate a valid, fully-filled 9×9 Sudoku board from a seed
+- [x] Every row, column, and 3×3 box contains digits 1–9 exactly once
+- [x] **Tests (`lib/sudoku/generator.test.ts`):**
   - Generated board passes full validity check (rows, cols, boxes)
   - Same seed → identical board
   - Different seeds → different boards (test 10 seeds)
-- **Commit:**
+- **Commit:** `54439e8`
 
 ### 1.3 — Puzzle creator (clue removal)
 - [ ] Remove digits from a filled board to create a puzzle with a unique solution
