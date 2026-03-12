@@ -6,6 +6,7 @@ interface CellProps {
   isSelected?: boolean;
   isPeer?: boolean;
   isSameNumber?: boolean;
+  isConflict?: boolean;
   onClick?: (row: number, col: number) => void;
 }
 
@@ -22,9 +23,11 @@ function getHighlightClasses(
   isClue: boolean,
   isSelected: boolean,
   isPeer: boolean,
-  isSameNumber: boolean
+  isSameNumber: boolean,
+  isConflict: boolean
 ): string {
   if (isSelected) return "cell-selected bg-blue-200";
+  if (isConflict) return "cell-conflict bg-red-100";
   if (isSameNumber) return "cell-same-number bg-blue-100";
   if (isPeer) return "cell-peer bg-slate-100";
   return isClue ? "bg-slate-50" : "bg-white";
@@ -32,16 +35,18 @@ function getHighlightClasses(
 
 export default function Cell({
   value, isClue, row, col,
-  isSelected = false, isPeer = false, isSameNumber = false,
+  isSelected = false, isPeer = false, isSameNumber = false, isConflict = false,
   onClick,
 }: CellProps) {
   const borderClasses = getBorderClasses(row, col);
-  const highlightClasses = getHighlightClasses(isClue, isSelected, isPeer, isSameNumber);
+  const highlightClasses = getHighlightClasses(isClue, isSelected, isPeer, isSameNumber, isConflict);
 
   const baseClasses =
     "flex items-center justify-center text-lg select-none transition-colors duration-150 cursor-pointer";
 
-  const textClasses = isClue ? "font-bold text-slate-900" : "font-normal text-indigo-800";
+  const textClasses = isConflict && !isSelected
+    ? "font-normal text-red-700"
+    : isClue ? "font-bold text-slate-900" : "font-normal text-indigo-800";
 
   return (
     <div
@@ -49,6 +54,7 @@ export default function Cell({
       data-clue={isClue ? "true" : "false"}
       data-row={row}
       data-col={col}
+      data-conflict={isConflict ? "true" : undefined}
       role="gridcell"
       tabIndex={0}
       aria-readonly={isClue ? true : undefined}
