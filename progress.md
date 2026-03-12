@@ -69,15 +69,15 @@
 - **Commit:** `7e97821`
 
 ### 1.4 — Sudoku solver
-- [ ] Backtracking solver that finds all solutions (up to a limit of 2, for uniqueness check)
-- [ ] Can solve any valid puzzle
-- [ ] **Tests (`lib/sudoku/solver.test.ts`):**
+- [x] Backtracking solver that finds all solutions (up to a limit of 2, for uniqueness check)
+- [x] Can solve any valid puzzle
+- [x] **Tests (`lib/sudoku/solver.test.ts`):**
   - Solves a known Easy puzzle correctly
   - Solves a known Expert puzzle correctly
   - Returns 1 solution for a unique puzzle
   - Returns 2 solutions for an ambiguous puzzle (crafted test case)
   - Returns 0 solutions for an invalid puzzle
-- **Commit:**
+- **Commit:** `e556612`
 
 ### 1.5 — Daily puzzle seed derivation
 - [ ] Function: `getDailySeed(date: string, difficulty: string) → string`
