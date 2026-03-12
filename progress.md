@@ -105,15 +105,15 @@
 - **Commit:** `b83ce93`
 
 ### 2.2 — Cell selection & highlighting
-- [ ] Click/tap a cell to select it (accent color highlight)
-- [ ] Peer highlight: row, column, and 3×3 box of selected cell shaded
-- [ ] Same-number highlight: all cells with the same digit softly highlighted
-- [ ] **Tests (`components/board/Board.test.tsx`):**
+- [x] Click/tap a cell to select it (accent color highlight)
+- [x] Peer highlight: row, column, and 3×3 box of selected cell shaded
+- [x] Same-number highlight: all cells with the same digit softly highlighted
+- [x] **Tests (`components/board/Board.test.tsx`):**
   - Clicking a cell sets it as selected (check `aria-selected` or class)
   - Peer cells (same row/col/box) get highlight class
   - Cells with matching digit get same-number highlight class
   - Selecting an empty cell does not trigger same-number highlight
-- **Commit:**
+- **Commit:** `4762bdc`
 
 ### 2.3 — Conflict highlighting
 - [ ] Duplicates in row, column, or box highlighted red in real-time
