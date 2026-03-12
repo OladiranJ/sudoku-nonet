@@ -116,14 +116,14 @@
 - **Commit:** `4762bdc`
 
 ### 2.3 — Conflict highlighting
-- [ ] Duplicates in row, column, or box highlighted red in real-time
-- [ ] Conflicts update immediately on input
-- [ ] **Tests (`components/board/Board.test.tsx`):**
+- [x] Duplicates in row, column, or box highlighted red in real-time
+- [x] Conflicts update immediately on input
+- [x] **Tests (`components/board/Board.test.tsx`):**
   - Entering a duplicate digit in a row marks both cells as conflicting
   - Entering a duplicate in a column marks both cells as conflicting
   - Entering a duplicate in a box marks both cells as conflicting
   - Removing the duplicate clears the conflict highlight
-- **Commit:**
+- **Commit:** `e39bd52`
 
 ---
 
