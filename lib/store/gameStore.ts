@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { Puzzle } from "@/lib/sudoku/puzzle";
 import type { Difficulty } from "@/lib/sudoku/puzzle";
+import { useTimerStore } from "@/lib/store/timerStore";
 
 export interface BoardSnapshot {
   board: number[][];
@@ -184,6 +185,10 @@ export const useGameStore = create<GameState>((set, get) => ({
         undoStack: [...undoStack, snapshot],
         redoStack: [],
       });
+
+      if (newIsComplete) {
+        useTimerStore.getState().stop();
+      }
     }
   },
 
