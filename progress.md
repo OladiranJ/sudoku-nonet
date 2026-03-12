@@ -171,66 +171,66 @@
 ## Phase 4: Game State & Logic
 
 ### 4.1 — Zustand game store
-- [ ] Store holds: board state, solution, notes, selected cell, difficulty, seed, isDaily, puzzleDate
-- [ ] Actions: `selectCell`, `placeDigit`, `erase`, `toggleNotes`
-- [ ] Derive: conflicts, digit counts, isComplete
-- [ ] **Tests (`lib/store/gameStore.test.ts`):**
+- [x] Store holds: board state, solution, notes, selected cell, difficulty, seed, isDaily, puzzleDate
+- [x] Actions: `selectCell`, `placeDigit`, `erase`, `toggleNotes`
+- [x] Derive: conflicts, digit counts, isComplete
+- [x] **Tests (`lib/store/gameStore.test.ts`):**
   - `placeDigit` updates the cell value
   - `erase` clears the cell value
   - `selectCell` updates the selected cell
   - `toggleNotes` switches mode
   - Placing a digit on a clue cell is a no-op
   - `isComplete` returns true only when all cells match the solution
-- **Commit:**
+- **Commit:** `9eed7ed`
 
 ### 4.2 — Error tracking
-- [ ] Error counter increments when a digit conflicts with the solution
-- [ ] Counter displayed in UI
-- [ ] Undo does **not** decrement error count
-- [ ] **Tests (`lib/store/gameStore.test.ts`):**
+- [x] Error counter increments when a digit conflicts with the solution
+- [x] Counter displayed in UI
+- [x] Undo does **not** decrement error count
+- [x] **Tests (`lib/store/gameStore.test.ts`):**
   - Placing an incorrect digit increments `errorCount`
   - Placing a correct digit does not increment `errorCount`
   - Undoing an incorrect digit does not decrement `errorCount`
   - Error count persists across undo/redo
-- **Commit:**
+- **Commit:** `1e26b70`
 
 ### 4.3 — Timer
-- [ ] Elapsed time as MM:SS, visible by default
-- [ ] Pause: overlay with blur, blocks play, shows "Resume"
-- [ ] Auto-pause on tab blur (`visibilitychange` event)
-- [ ] Stops on puzzle completion
-- [ ] **Tests (`lib/store/timerStore.test.ts`):**
+- [x] Elapsed time as MM:SS, visible by default
+- [x] Pause: overlay with blur, blocks play, shows "Resume"
+- [x] Auto-pause on tab blur (`visibilitychange` event)
+- [x] Stops on puzzle completion
+- [x] **Tests (`lib/store/timerStore.test.ts`):**
   - Timer starts at 0 on new game
   - `pause()` stops the timer
   - `resume()` resumes the timer
   - Timer value persists through pause/resume cycle
   - `stop()` halts the timer permanently (completion)
-- **Commit:**
+- **Commit:** `3d954de`
 
 ### 4.4 — Undo / Redo
-- [ ] Full history stack: every `placeDigit` and `erase` is recorded
-- [ ] Ctrl+Z / Ctrl+Y and UI buttons
-- [ ] Notes preserved on undo
-- [ ] Stack resets on new game
-- [ ] **Tests (`lib/store/undoStore.test.ts` or `gameStore.test.ts`):**
+- [x] Full history stack: every `placeDigit` and `erase` is recorded
+- [x] Ctrl+Z / Ctrl+Y and UI buttons
+- [x] Notes preserved on undo
+- [x] Stack resets on new game
+- [x] **Tests (`lib/store/gameStore.test.ts`):**
   - After placing a digit, undo restores previous state
   - After undo, redo restores the digit
   - Undo past the beginning is a no-op
   - Redo past the end is a no-op
   - Notes are correctly restored on undo
   - Starting a new game clears the undo stack
-- **Commit:**
+- **Commit:** `1b2deb8`
 
 ### 4.5 — Auto-save & resume
-- [ ] Game state serialized to `localStorage` on every move
-- [ ] On page load, game state restored silently from `localStorage`
-- [ ] Logged-in users: state keyed to user ID
-- [ ] **Tests (`lib/store/autoSave.test.ts`):**
+- [x] Game state serialized to `localStorage` on every move
+- [x] On page load, game state restored silently from `localStorage`
+- [x] Logged-in users: state keyed to user ID
+- [x] **Tests (`lib/store/autoSave.test.ts`):**
   - After a move, `localStorage` contains serialized game state
   - On init with existing `localStorage` data, store hydrates correctly
   - Board, notes, timer, error count, and undo stack all restored
   - Different user IDs use different storage keys
-- **Commit:**
+- **Commit:** `54f65d2`
 
 ---
 
