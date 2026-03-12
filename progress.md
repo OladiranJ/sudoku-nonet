@@ -130,16 +130,16 @@
 ## Phase 3: Input & Controls
 
 ### 3.1 — On-screen numpad
-- [ ] 3×3 grid of digit buttons (1–9) + Erase button
-- [ ] Tapping a digit fills the selected cell
-- [ ] Erase button clears the selected cell
-- [ ] Digits gray out when all 9 instances are placed on the board
-- [ ] **Tests (`components/numpad/Numpad.test.tsx`):**
+- [x] 3×3 grid of digit buttons (1–9) + Erase button
+- [x] Tapping a digit fills the selected cell
+- [x] Erase button clears the selected cell
+- [x] Digits gray out when all 9 instances are placed on the board
+- [x] **Tests (`components/numpad/Numpad.test.tsx`):**
   - Renders 9 digit buttons and an erase button
   - Clicking a digit dispatches correct action to game store
   - Clicking erase dispatches erase action
   - Button for digit with 9 placements has disabled/grayed-out state
-- **Commit:**
+- **Commit:** `ca6eee2`
 
 ### 3.2 — Keyboard input
 - [ ] 1–9 keys fill the selected cell
