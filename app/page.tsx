@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Board from "@/components/board/Board";
 import Numpad from "@/components/numpad/Numpad";
+import NewGameModal from "@/components/modals/NewGameModal";
 import { useGameStore } from "@/lib/store/gameStore";
 import { createPuzzle } from "@/lib/sudoku/puzzle";
 
 export default function Home() {
   const puzzle = useGameStore((s) => s.puzzle);
   const startGame = useGameStore((s) => s.startGame);
+  const [showNewGameModal, setShowNewGameModal] = useState(false);
 
   useEffect(() => {
     if (!puzzle) {
@@ -25,10 +27,21 @@ export default function Home() {
         <div className="w-full max-w-lg">
           <Board />
         </div>
-        <div className="w-full max-w-xs">
+        <div className="w-full max-w-xs flex flex-col gap-4">
           <Numpad />
+          <button
+            onClick={() => setShowNewGameModal(true)}
+            className="w-full py-3 px-4 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 active:bg-indigo-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            data-testid="new-game-button"
+          >
+            New Game
+          </button>
         </div>
       </div>
+      <NewGameModal
+        isOpen={showNewGameModal}
+        onClose={() => setShowNewGameModal(false)}
+      />
     </main>
   );
 }
