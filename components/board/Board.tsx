@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo } from "react";
 import type { Puzzle } from "@/lib/sudoku/puzzle";
 import { getConflicts } from "@/lib/sudoku/conflicts";
 import { useGameStore } from "@/lib/store/gameStore";
+import { useKeyboardInput } from "./useKeyboardInput";
 import Cell from "./Cell";
 
 interface BoardProps {
@@ -44,6 +45,8 @@ export default function Board({ puzzle: puzzleProp, currentBoard: currentBoardPr
       storeSelectCell(row, col);
     }
   }, [usingProps, storeSelectCell]);
+
+  useKeyboardInput();
 
   const selectedValue = selectedCell ? displayBoard[selectedCell.row][selectedCell.col] : 0;
   const conflicts = useMemo(() => getConflicts(displayBoard), [displayBoard]);
