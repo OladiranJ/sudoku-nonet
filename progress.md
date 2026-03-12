@@ -142,16 +142,16 @@
 - **Commit:** `ca6eee2`
 
 ### 3.2 — Keyboard input
-- [ ] 1–9 keys fill the selected cell
-- [ ] Backspace/Delete erases the selected cell
-- [ ] Arrow keys navigate cell selection
-- [ ] **Tests (`components/board/KeyboardInput.test.tsx`):**
+- [x] 1–9 keys fill the selected cell
+- [x] Backspace/Delete erases the selected cell
+- [x] Arrow keys navigate cell selection
+- [x] **Tests (`components/board/KeyboardInput.test.tsx`):**
   - Pressing "5" fills selected cell with 5
   - Pressing Backspace clears selected cell
   - Arrow keys move selection in correct direction
-  - Arrow keys wrap or stop at board edges (decide and test)
+  - Arrow keys clamp at board edges (stop, no wrap)
   - Keyboard input on a clue cell is ignored
-- **Commit:**
+- **Commit:** `cf2153a`
 
 ### 3.3 — Notes / Pencil mode
 - [ ] Toggle button switches between Pen and Pencil mode
