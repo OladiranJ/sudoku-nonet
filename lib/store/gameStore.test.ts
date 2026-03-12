@@ -151,3 +151,96 @@ describe("gameStore — Task 4.1", () => {
     expect(getState().puzzleDate).toBeNull();
   });
 });
+
+describe("gameStore — Task 4.4: Undo/Redo", () => {
+  let puzzle: Puzzle;
+
+  beforeEach(() => {
+    puzzle = makeTestPuzzle();
+    getState().startGame(puzzle);
+  });
+
+  test("after placing a digit, undo restores previous state", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    getState().selectCell(row, col);
+    getState().placeDigit(5);
+    expect(getState().currentBoard[row][col]).toBe(5);
+
+    getState().undo();
+    expect(getState().currentBoard[row][col]).toBe(0);
+  });
+
+  test("after undo, redo restores the digit", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    getState().selectCell(row, col);
+    getState().placeDigit(7);
+    getState().undo();
+    expect(getState().currentBoard[row][col]).toBe(0);
+
+    getState().redo();
+    expect(getState().currentBoard[row][col]).toBe(7);
+  });
+
+  test("undo past the beginning is a no-op", () => {
+    const boardBefore = getState().currentBoard.map((r) => [...r]);
+    getState().undo();
+    const boardAfter = getState().currentBoard;
+    expect(boardAfter).toEqual(boardBefore);
+  });
+
+  test("redo past the end is a no-op", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    getState().selectCell(row, col);
+    getState().placeDigit(3);
+    const boardBefore = getState().currentBoard.map((r) => [...r]);
+
+    getState().redo();
+    expect(getState().currentBoard).toEqual(boardBefore);
+  });
+
+  test("notes are correctly restored on undo", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    getState().selectCell(row, col);
+
+    // Enter pencil mode and add notes
+    getState().toggleNotesMode();
+    getState().placeDigit(1);
+    getState().placeDigit(4);
+    expect(getState().notes[row][col].has(1)).toBe(true);
+    expect(getState().notes[row][col].has(4)).toBe(true);
+
+    // Switch to pen mode and place a digit (clears notes)
+    getState().toggleNotesMode();
+    getState().placeDigit(5);
+    expect(getState().notes[row][col].size).toBe(0);
+    expect(getState().currentBoard[row][col]).toBe(5);
+
+    // Undo should restore the notes
+    getState().undo();
+    expect(getState().currentBoard[row][col]).toBe(0);
+    expect(getState().notes[row][col].has(1)).toBe(true);
+    expect(getState().notes[row][col].has(4)).toBe(true);
+  });
+
+  test("starting a new game clears the undo stack", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    getState().selectCell(row, col);
+    getState().placeDigit(3);
+    expect(getState().undoStack.length).toBe(1);
+
+    getState().startGame(puzzle);
+    expect(getState().undoStack).toEqual([]);
+    expect(getState().redoStack).toEqual([]);
+  });
+
+  test("new action after undo clears redo stack", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    getState().selectCell(row, col);
+    getState().placeDigit(3);
+    getState().undo();
+    expect(getState().redoStack.length).toBe(1);
+
+    getState().placeDigit(7);
+    expect(getState().redoStack).toEqual([]);
+  });
+});
