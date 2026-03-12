@@ -3,10 +3,13 @@
 import { useState, useCallback, useMemo } from "react";
 import type { Puzzle } from "@/lib/sudoku/puzzle";
 import { getConflicts } from "@/lib/sudoku/conflicts";
+import { useGameStore } from "@/lib/store/gameStore";
 import Cell from "./Cell";
 
 interface BoardProps {
-  puzzle: Puzzle;
+  /** Pass puzzle directly for standalone/test usage. Omit to read from store. */
+  puzzle?: Puzzle;
+  /** Override the displayed board (for conflict tests). Omit to read from store. */
   currentBoard?: number[][];
 }
 
@@ -18,16 +21,34 @@ function isPeer(selRow: number, selCol: number, row: number, col: number): boole
       && Math.floor(col / 3) === Math.floor(selCol / 3);
 }
 
-export default function Board({ puzzle, currentBoard }: BoardProps) {
-  const displayBoard = currentBoard ?? puzzle.board;
-  const [selectedCell, setSelectedCell] = useState<{ row: number; col: number } | null>(null);
+export default function Board({ puzzle: puzzleProp, currentBoard: currentBoardProp }: BoardProps) {
+  // Props-first: use props if provided, otherwise fall back to store
+  const storePuzzle = useGameStore((s) => s.puzzle);
+  const storeBoard = useGameStore((s) => s.currentBoard);
+  const storeSelectedCell = useGameStore((s) => s.selectedCell);
+  const storeSelectCell = useGameStore((s) => s.selectCell);
+
+  const puzzle = puzzleProp ?? storePuzzle;
+  const usingProps = puzzleProp !== undefined;
+
+  // Local selection state for prop-based mode (backward compat with existing tests)
+  const [localSelectedCell, setLocalSelectedCell] = useState<{ row: number; col: number } | null>(null);
+
+  const selectedCell = usingProps ? localSelectedCell : storeSelectedCell;
+  const displayBoard = currentBoardProp ?? (usingProps ? puzzle!.board : storeBoard);
 
   const handleCellClick = useCallback((row: number, col: number) => {
-    setSelectedCell({ row, col });
-  }, []);
+    if (usingProps) {
+      setLocalSelectedCell({ row, col });
+    } else {
+      storeSelectCell(row, col);
+    }
+  }, [usingProps, storeSelectCell]);
 
   const selectedValue = selectedCell ? displayBoard[selectedCell.row][selectedCell.col] : 0;
   const conflicts = useMemo(() => getConflicts(displayBoard), [displayBoard]);
+
+  if (!puzzle) return null;
 
   return (
     <div
