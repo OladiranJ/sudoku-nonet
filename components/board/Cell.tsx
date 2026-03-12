@@ -7,6 +7,7 @@ interface CellProps {
   isPeer?: boolean;
   isSameNumber?: boolean;
   isConflict?: boolean;
+  notes?: Set<number>;
   onClick?: (row: number, col: number) => void;
 }
 
@@ -33,9 +34,26 @@ function getHighlightClasses(
   return isClue ? "bg-slate-50" : "bg-white";
 }
 
+function NotesGrid({ notes }: { notes: Set<number> }) {
+  return (
+    <div className="grid grid-cols-3 grid-rows-3 w-full h-full" data-notes>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
+        <span
+          key={d}
+          className="flex items-center justify-center text-[9px] leading-none text-slate-500"
+          data-note-digit={d}
+        >
+          {notes.has(d) ? d : ""}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function Cell({
   value, isClue, row, col,
   isSelected = false, isPeer = false, isSameNumber = false, isConflict = false,
+  notes,
   onClick,
 }: CellProps) {
   const borderClasses = getBorderClasses(row, col);
@@ -48,6 +66,8 @@ export default function Cell({
     ? "font-normal text-red-700"
     : isClue ? "font-bold text-slate-900" : "font-normal text-indigo-800";
 
+  const hasNotes = notes && notes.size > 0 && value === 0;
+
   return (
     <div
       data-cell
@@ -59,10 +79,10 @@ export default function Cell({
       tabIndex={0}
       aria-readonly={isClue ? true : undefined}
       aria-selected={isSelected ? true : undefined}
-      className={`${baseClasses} ${textClasses} ${highlightClasses} ${borderClasses} border-slate-800`}
+      className={`${baseClasses} ${hasNotes ? "" : textClasses} ${highlightClasses} ${borderClasses} border-slate-800`}
       onClick={() => onClick?.(row, col)}
     >
-      {value > 0 ? value : ""}
+      {hasNotes ? <NotesGrid notes={notes} /> : value > 0 ? value : ""}
     </div>
   );
 }

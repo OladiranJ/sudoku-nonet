@@ -154,17 +154,17 @@
 - **Commit:** `cf2153a`
 
 ### 3.3 — Notes / Pencil mode
-- [ ] Toggle button switches between Pen and Pencil mode
-- [ ] Pencil mode: digits appear as small candidates in the cell (up to 9)
-- [ ] Toggling a note on/off for the same digit
-- [ ] Notes auto-clear when a final answer is placed in that cell
-- [ ] **Tests (`components/board/Notes.test.ts` or integrated):**
+- [x] Toggle button switches between Pen and Pencil mode
+- [x] Pencil mode: digits appear as small candidates in the cell (up to 9)
+- [x] Toggling a note on/off for the same digit
+- [x] Notes auto-clear when a final answer is placed in that cell
+- [x] **Tests (`components/board/Notes.test.tsx`):**
   - Toggling pencil mode changes store state
   - In pencil mode, entering a digit adds it as a note (not a final value)
   - Entering the same digit again removes the note
   - Placing a final value clears all notes in that cell
   - Notes are preserved on undo (tested in Phase 4)
-- **Commit:**
+- **Commit:** `c29252a`
 
 ---
 
