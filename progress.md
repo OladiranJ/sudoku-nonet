@@ -80,14 +80,14 @@
 - **Commit:** `e556612`
 
 ### 1.5 — Daily puzzle seed derivation
-- [ ] Function: `getDailySeed(date: string, difficulty: string) → string`
-- [ ] Deterministic hash of `"YYYY-MM-DD-difficulty"`
-- [ ] **Tests (`lib/sudoku/daily.test.ts`):**
+- [x] Function: `getDailySeed(date: string, difficulty: string) → string`
+- [x] Deterministic hash of `"YYYY-MM-DD-difficulty"`
+- [x] **Tests (`lib/sudoku/daily.test.ts`):**
   - Same date + difficulty → same seed
   - Different dates → different seeds
   - Different difficulties on same date → different seeds
   - Seed produces a valid, unique-solution puzzle
-- **Commit:**
+- **Commit:** `e99da8c`
 
 ---
 
