@@ -4,6 +4,11 @@ import { createPuzzle } from "@/lib/sudoku/puzzle";
 
 const puzzle = createPuzzle("test-seed", "easy");
 
+// Helper: deep-copy a 2D array
+function cloneBoard(board: number[][]): number[][] {
+  return board.map((row) => [...row]);
+}
+
 describe("Board", () => {
   it("renders 81 cells", () => {
     const { container } = render(<Board puzzle={puzzle} />);
@@ -135,5 +140,129 @@ describe("Board", () => {
     allCells.forEach((cell) => {
       expect(cell.className).not.toContain("cell-same-number");
     });
+  });
+
+  // --- 2.3 Conflict highlighting ---
+
+  it("entering a duplicate digit in a row marks both cells as conflicting", () => {
+    // Find an empty cell and place a digit that already exists in its row
+    const board = cloneBoard(puzzle.board);
+    // Find first empty cell and a clue value in the same row
+    let emptyRow = -1, emptyCol = -1, dupeValue = 0;
+    outer: for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        if (board[r][c] === 0) {
+          // Find a non-zero value elsewhere in this row
+          for (let cc = 0; cc < 9; cc++) {
+            if (board[r][cc] !== 0 && cc !== c) {
+              emptyRow = r;
+              emptyCol = c;
+              dupeValue = board[r][cc];
+              break outer;
+            }
+          }
+        }
+      }
+    }
+    board[emptyRow][emptyCol] = dupeValue;
+
+    const { container } = render(<Board puzzle={puzzle} currentBoard={board} />);
+    const cell = container.querySelector(`[data-row="${emptyRow}"][data-col="${emptyCol}"]`)!;
+    expect(cell.className).toContain("cell-conflict");
+    expect(cell).toHaveAttribute("data-conflict", "true");
+  });
+
+  it("entering a duplicate digit in a column marks both cells as conflicting", () => {
+    const board = cloneBoard(puzzle.board);
+    let emptyRow = -1, emptyCol = -1, dupeValue = 0;
+    outer: for (let c = 0; c < 9; c++) {
+      for (let r = 0; r < 9; r++) {
+        if (board[r][c] === 0) {
+          for (let rr = 0; rr < 9; rr++) {
+            if (board[rr][c] !== 0 && rr !== r) {
+              emptyRow = r;
+              emptyCol = c;
+              dupeValue = board[rr][c];
+              break outer;
+            }
+          }
+        }
+      }
+    }
+    board[emptyRow][emptyCol] = dupeValue;
+
+    const { container } = render(<Board puzzle={puzzle} currentBoard={board} />);
+    const cell = container.querySelector(`[data-row="${emptyRow}"][data-col="${emptyCol}"]`)!;
+    expect(cell.className).toContain("cell-conflict");
+    expect(cell).toHaveAttribute("data-conflict", "true");
+  });
+
+  it("entering a duplicate digit in a box marks both cells as conflicting", () => {
+    const board = cloneBoard(puzzle.board);
+    let emptyRow = -1, emptyCol = -1, dupeValue = 0;
+    outer: for (let br = 0; br < 3; br++) {
+      for (let bc = 0; bc < 3; bc++) {
+        for (let r = br * 3; r < br * 3 + 3; r++) {
+          for (let c = bc * 3; c < bc * 3 + 3; c++) {
+            if (board[r][c] === 0) {
+              // Find a clue in the same box
+              for (let rr = br * 3; rr < br * 3 + 3; rr++) {
+                for (let cc = bc * 3; cc < bc * 3 + 3; cc++) {
+                  if (board[rr][cc] !== 0 && (rr !== r || cc !== c)) {
+                    emptyRow = r;
+                    emptyCol = c;
+                    dupeValue = board[rr][cc];
+                    break outer;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    board[emptyRow][emptyCol] = dupeValue;
+
+    const { container } = render(<Board puzzle={puzzle} currentBoard={board} />);
+    const cell = container.querySelector(`[data-row="${emptyRow}"][data-col="${emptyCol}"]`)!;
+    expect(cell.className).toContain("cell-conflict");
+    expect(cell).toHaveAttribute("data-conflict", "true");
+  });
+
+  it("removing the duplicate clears the conflict highlight", () => {
+    const board = cloneBoard(puzzle.board);
+    // Place a conflict then remove it
+    let emptyRow = -1, emptyCol = -1, dupeValue = 0;
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        if (board[r][c] === 0) {
+          for (let cc = 0; cc < 9; cc++) {
+            if (board[r][cc] !== 0 && cc !== c) {
+              emptyRow = r;
+              emptyCol = c;
+              dupeValue = board[r][cc];
+              break;
+            }
+          }
+          if (emptyRow >= 0) break;
+        }
+      }
+      if (emptyRow >= 0) break;
+    }
+
+    // First render WITH conflict
+    board[emptyRow][emptyCol] = dupeValue;
+    const { container, rerender } = render(<Board puzzle={puzzle} currentBoard={board} />);
+    const cell = container.querySelector(`[data-row="${emptyRow}"][data-col="${emptyCol}"]`)!;
+    expect(cell.className).toContain("cell-conflict");
+
+    // Now remove the duplicate (set back to 0) and re-render
+    const clearedBoard = cloneBoard(board);
+    clearedBoard[emptyRow][emptyCol] = 0;
+    rerender(<Board puzzle={puzzle} currentBoard={clearedBoard} />);
+
+    const cellAfter = container.querySelector(`[data-row="${emptyRow}"][data-col="${emptyCol}"]`)!;
+    expect(cellAfter.className).not.toContain("cell-conflict");
+    expect(cellAfter).not.toHaveAttribute("data-conflict");
   });
 });
