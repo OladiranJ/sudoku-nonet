@@ -28,6 +28,7 @@ export default function Board({ puzzle: puzzleProp, currentBoard: currentBoardPr
   const storeBoard = useGameStore((s) => s.currentBoard);
   const storeSelectedCell = useGameStore((s) => s.selectedCell);
   const storeSelectCell = useGameStore((s) => s.selectCell);
+  const storeNotes = useGameStore((s) => s.notes);
 
   const puzzle = puzzleProp ?? storePuzzle;
   const usingProps = puzzleProp !== undefined;
@@ -81,6 +82,7 @@ export default function Board({ puzzle: puzzleProp, currentBoard: currentBoardPr
               isPeer={peer}
               isSameNumber={sameNumber}
               isConflict={isConflict}
+              notes={!usingProps ? storeNotes[rowIndex][colIndex] : undefined}
               onClick={handleCellClick}
             />
           );
