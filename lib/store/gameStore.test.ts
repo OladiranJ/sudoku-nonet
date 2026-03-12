@@ -244,3 +244,65 @@ describe("gameStore — Task 4.4: Undo/Redo", () => {
     expect(getState().redoStack).toEqual([]);
   });
 });
+
+describe("gameStore — Task 4.2: Error Tracking", () => {
+  let puzzle: Puzzle;
+
+  beforeEach(() => {
+    puzzle = makeTestPuzzle();
+    getState().startGame(puzzle);
+  });
+
+  test("placing an incorrect digit increments errorCount", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    const correct = puzzle.solution[row][col];
+    const wrong = correct === 9 ? 1 : correct + 1;
+
+    getState().selectCell(row, col);
+    getState().placeDigit(wrong);
+    expect(getState().errorCount).toBe(1);
+  });
+
+  test("placing a correct digit does not increment errorCount", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    const correct = puzzle.solution[row][col];
+
+    getState().selectCell(row, col);
+    getState().placeDigit(correct);
+    expect(getState().errorCount).toBe(0);
+  });
+
+  test("undoing an incorrect digit does not decrement errorCount", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    const correct = puzzle.solution[row][col];
+    const wrong = correct === 9 ? 1 : correct + 1;
+
+    getState().selectCell(row, col);
+    getState().placeDigit(wrong);
+    expect(getState().errorCount).toBe(1);
+
+    getState().undo();
+    expect(getState().errorCount).toBe(1); // still 1, not decremented
+  });
+
+  test("error count persists across undo/redo", () => {
+    const { row, col } = findEmptyCell(puzzle);
+    const correct = puzzle.solution[row][col];
+    const wrong = correct === 9 ? 1 : correct + 1;
+
+    getState().selectCell(row, col);
+    getState().placeDigit(wrong); // errorCount -> 1
+    getState().undo();
+    getState().redo();
+    expect(getState().errorCount).toBe(1);
+
+    // Place another wrong digit
+    getState().erase();
+    const wrong2 = correct === 8 ? 1 : correct + 2;
+    getState().placeDigit(wrong2); // errorCount -> 2
+    expect(getState().errorCount).toBe(2);
+
+    getState().undo();
+    expect(getState().errorCount).toBe(2); // still 2
+  });
+});
