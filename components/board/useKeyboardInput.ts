@@ -8,9 +8,25 @@ export function useKeyboardInput() {
   const placeDigit = useGameStore((s) => s.placeDigit);
   const erase = useGameStore((s) => s.erase);
   const selectCell = useGameStore((s) => s.selectCell);
+  const undo = useGameStore((s) => s.undo);
+  const redo = useGameStore((s) => s.redo);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      // Undo: Ctrl+Z or Cmd+Z
+      if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
+        e.preventDefault();
+        undo();
+        return;
+      }
+
+      // Redo: Ctrl+Y or Cmd+Y or Ctrl+Shift+Z or Cmd+Shift+Z
+      if ((e.ctrlKey || e.metaKey) && (e.key === "y" || (e.key === "z" && e.shiftKey) || (e.key === "Z" && e.shiftKey))) {
+        e.preventDefault();
+        redo();
+        return;
+      }
+
       if (!selectedCell) return;
 
       // Digits 1-9
@@ -37,5 +53,5 @@ export function useKeyboardInput() {
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [selectedCell, placeDigit, erase, selectCell]);
+  }, [selectedCell, placeDigit, erase, selectCell, undo, redo]);
 }
