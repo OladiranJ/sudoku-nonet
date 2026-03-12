@@ -237,19 +237,19 @@
 ## Phase 5: New Game Flow
 
 ### 5.1 — New game modal (two-step)
-- [ ] "New Game" button opens modal
-- [ ] Step 1: select difficulty (Easy / Medium / Hard / Expert)
-- [ ] Step 2: select puzzle type (Daily Puzzle / Random Puzzle)
-- [ ] On confirm: generates puzzle and starts game
-- [ ] In-progress game auto-saved before starting new one
-- [ ] **Tests (`components/modals/NewGameModal.test.tsx`):**
+- [x] "New Game" button opens modal
+- [x] Step 1: select difficulty (Easy / Medium / Hard / Expert)
+- [x] Step 2: select puzzle type (Daily Puzzle / Random Puzzle)
+- [x] On confirm: generates puzzle and starts game
+- [x] In-progress game auto-saved before starting new one
+- [x] **Tests (`components/modals/NewGameModal.test.tsx`):**
   - Modal opens when "New Game" is clicked
   - All 4 difficulty options are rendered
   - After selecting difficulty, puzzle type step appears
   - Selecting "Random Puzzle" generates a random seed and starts the game
   - Selecting "Daily Puzzle" generates a date-based seed and starts the game
   - Modal closes after confirmation
-- **Commit:**
+- **Commit:** `74486a6`
 
 ### 5.2 — Daily puzzle lockout
 - [ ] After completing a daily puzzle, that difficulty is locked for the rest of the day
