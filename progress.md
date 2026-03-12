@@ -94,15 +94,15 @@
 ## Phase 2: Game Board UI
 
 ### 2.1 — 9×9 grid component
-- [ ] Render a 9×9 grid with bold 3×3 sub-grid borders
-- [ ] Clue cells styled bold and non-editable; player cells styled differently
-- [ ] Responsive: fills available width, maintains square aspect ratio
-- [ ] **Tests (`components/board/Board.test.tsx`):**
+- [x] Render a 9×9 grid with bold 3×3 sub-grid borders
+- [x] Clue cells styled bold and non-editable; player cells styled differently
+- [x] Responsive: fills available width, maintains square aspect ratio
+- [x] **Tests (`components/board/Board.test.tsx`):**
   - Renders 81 cells
   - Clue cells have `data-clue="true"` attribute and are non-editable
   - Player cells have `data-clue="false"` and are editable
   - 3×3 borders are visually distinct (check CSS classes)
-- **Commit:**
+- **Commit:** `b83ce93`
 
 ### 2.2 — Cell selection & highlighting
 - [ ] Click/tap a cell to select it (accent color highlight)
