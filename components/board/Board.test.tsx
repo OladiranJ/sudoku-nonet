@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Board from "@/components/board/Board";
 import { createPuzzle } from "@/lib/sudoku/puzzle";
 
@@ -35,7 +35,7 @@ describe("Board", () => {
     });
   });
 
-  it("3x3 sub-grid borders are visually distinct", () => {
+  it("3×3 sub-grid borders are visually distinct", () => {
     const { container } = render(<Board puzzle={puzzle} />);
     const cells = container.querySelectorAll("[data-cell]");
 
@@ -69,5 +69,71 @@ describe("Board", () => {
     expect(interior?.className).not.toContain("border-l-2");
     expect(interior?.className).toContain("border-t");
     expect(interior?.className).toContain("border-l");
+  });
+
+  // --- 2.2 Cell selection & highlighting ---
+
+  it("clicking a cell sets it as selected (aria-selected)", () => {
+    const { container } = render(<Board puzzle={puzzle} />);
+    const cell = container.querySelector('[data-row="4"][data-col="4"]')!;
+    fireEvent.click(cell);
+    expect(cell).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("peer cells (same row/col/box) get highlight class", () => {
+    const { container } = render(<Board puzzle={puzzle} />);
+    const cell = container.querySelector('[data-row="4"][data-col="4"]')!;
+    fireEvent.click(cell);
+
+    // Same row peer
+    const sameRow = container.querySelector('[data-row="4"][data-col="0"]')!;
+    expect(sameRow.className).toContain("cell-peer");
+
+    // Same col peer
+    const sameCol = container.querySelector('[data-row="0"][data-col="4"]')!;
+    expect(sameCol.className).toContain("cell-peer");
+
+    // Same 3x3 box peer (box starting at row=3, col=3)
+    const sameBox = container.querySelector('[data-row="3"][data-col="3"]')!;
+    expect(sameBox.className).toContain("cell-peer");
+
+    // Non-peer cell should not have peer class
+    const nonPeer = container.querySelector('[data-row="0"][data-col="0"]')!;
+    expect(nonPeer.className).not.toContain("cell-peer");
+  });
+
+  it("cells with matching digit get same-number highlight class", () => {
+    const { container } = render(<Board puzzle={puzzle} />);
+    // Find a clue cell to click
+    const clueCells = container.querySelectorAll('[data-clue="true"]');
+    const clickedClue = clueCells[0] as HTMLElement;
+    const clickedValue = clickedClue.textContent;
+    fireEvent.click(clickedClue);
+
+    // Find other clue cells with the same value (not the clicked one)
+    const allCells = container.querySelectorAll("[data-cell]");
+    let foundSameNumber = false;
+    allCells.forEach((cell) => {
+      if (cell === clickedClue) return;
+      if (cell.textContent === clickedValue && clickedValue !== "") {
+        expect(cell.className).toContain("cell-same-number");
+        foundSameNumber = true;
+      }
+    });
+    // Sudoku always has multiple instances of at least some digits
+    expect(foundSameNumber).toBe(true);
+  });
+
+  it("selecting an empty cell does not trigger same-number highlight", () => {
+    const { container } = render(<Board puzzle={puzzle} />);
+    // Find an empty (player) cell
+    const emptyCell = container.querySelector('[data-clue="false"]')!;
+    fireEvent.click(emptyCell);
+
+    // No cell should have same-number highlight
+    const allCells = container.querySelectorAll("[data-cell]");
+    allCells.forEach((cell) => {
+      expect(cell.className).not.toContain("cell-same-number");
+    });
   });
 });
