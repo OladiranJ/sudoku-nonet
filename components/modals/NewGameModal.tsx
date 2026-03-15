@@ -38,11 +38,12 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
     ? getCompletionTime(selectedDifficulty, today)
     : null;
 
-  // Reset state when modal opens
+  // Reset state and hydrate daily completions when modal opens
   useEffect(() => {
     if (isOpen) {
       setStep(1);
       setSelectedDifficulty(null);
+      useDailyStore.getState().hydrate();
     }
   }, [isOpen]);
 
