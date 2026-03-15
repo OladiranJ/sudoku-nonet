@@ -37,7 +37,7 @@ export default function Header() {
       data-testid="header"
       className="flex items-center justify-between w-full px-4 py-3 md:px-6"
     >
-      <h1 className="text-2xl font-bold tracking-tight" data-testid="wordmark">
+      <h1 className="text-2xl font-bold tracking-tight font-serif" data-testid="wordmark">
         Nonet
       </h1>
       <nav className="flex items-center gap-1" aria-label="Main navigation">

@@ -27,9 +27,9 @@ function getHighlightClasses(
   isSameNumber: boolean,
   isConflict: boolean
 ): string {
-  if (isSelected) return "cell-selected bg-blue-200 dark:bg-blue-900";
+  if (isSelected) return "cell-selected bg-brand-100 dark:bg-brand-900";
   if (isConflict) return "cell-conflict bg-red-100 dark:bg-red-900/40";
-  if (isSameNumber) return "cell-same-number bg-blue-100 dark:bg-blue-950";
+  if (isSameNumber) return "cell-same-number bg-brand-50 dark:bg-brand-950";
   if (isPeer) return "cell-peer bg-slate-100 dark:bg-slate-800";
   return isClue ? "bg-slate-50 dark:bg-slate-800" : "bg-white dark:bg-slate-900";
 }
@@ -64,7 +64,7 @@ export default function Cell({
 
   const textClasses = isConflict && !isSelected
     ? "font-normal text-red-700 dark:text-red-400"
-    : isClue ? "font-bold text-slate-900 dark:text-slate-100" : "font-normal text-indigo-800 dark:text-indigo-300";
+    : isClue ? "font-bold text-slate-900 dark:text-slate-100" : "font-normal text-brand-800 dark:text-brand-300";
 
   const hasNotes = notes && notes.size > 0 && value === 0;
 
