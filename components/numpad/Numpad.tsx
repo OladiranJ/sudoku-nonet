@@ -8,6 +8,8 @@ export default function Numpad() {
   const erase = useGameStore((s) => s.erase);
   const notesMode = useGameStore((s) => s.notesMode);
   const toggleNotesMode = useGameStore((s) => s.toggleNotesMode);
+  const useHint = useGameStore((s) => s.useHint);
+  const isComplete = useGameStore((s) => s.isComplete);
 
   const digitCounts = getDigitCounts(currentBoard);
 
@@ -60,6 +62,19 @@ export default function Numpad() {
           Erase
         </button>
       </div>
+      <button
+        data-action="hint"
+        onClick={() => useHint()}
+        disabled={isComplete}
+        className={`flex items-center justify-center h-12 rounded-lg text-base font-medium
+          transition-colors duration-150
+          ${isComplete
+            ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+            : "bg-amber-100 text-amber-800 hover:bg-amber-200 focus-visible:ring-2 focus-visible:ring-amber-500 active:bg-amber-300 cursor-pointer"
+          }`}
+      >
+        Hint
+      </button>
     </div>
   );
 }

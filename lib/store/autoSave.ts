@@ -20,6 +20,7 @@ export interface SerializedGameState {
   isDaily: boolean;
   puzzleDate: string | null;
   errorCount: number;
+  hintCount: number;
   undoStack: BoardSnapshot[];
   redoStack: BoardSnapshot[];
   elapsed: number;
@@ -51,6 +52,7 @@ export function saveGameState(userId?: string): void {
     isDaily: gameState.isDaily,
     puzzleDate: gameState.puzzleDate,
     errorCount: gameState.errorCount,
+    hintCount: gameState.hintCount,
     undoStack: gameState.undoStack,
     redoStack: gameState.redoStack,
     elapsed: timerState.elapsed,
@@ -92,6 +94,7 @@ export function hydrateStores(data: SerializedGameState): void {
     isDaily: data.isDaily,
     puzzleDate: data.puzzleDate,
     errorCount: data.errorCount,
+    hintCount: data.hintCount ?? 0,
     undoStack: data.undoStack,
     redoStack: data.redoStack,
   };
