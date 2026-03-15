@@ -252,15 +252,15 @@
 - **Commit:** `74486a6`
 
 ### 5.2 — Daily puzzle lockout
-- [ ] After completing a daily puzzle, that difficulty is locked for the rest of the day
-- [ ] UI shows completion time and countdown to next daily puzzle
-- [ ] "Daily Puzzle" button disabled/shows status for completed difficulties
-- [ ] **Tests (`components/modals/NewGameModal.test.tsx` or `lib/store/dailyStore.test.ts`):**
+- [x] After completing a daily puzzle, that difficulty is locked for the rest of the day
+- [x] UI shows completion time and countdown to next daily puzzle
+- [x] "Daily Puzzle" button disabled/shows status for completed difficulties
+- [x] **Tests (`components/modals/NewGameModal.test.tsx` or `lib/store/dailyStore.test.ts`):**
   - After completing a daily puzzle, `isDailyCompleted(difficulty, date)` returns true
   - Completed daily difficulty shows as locked in the modal
   - Lockout resets when the date changes
   - Guest daily completions are tracked in localStorage
-- **Commit:**
+- **Commit:** `2206ecc`
 
 ---
 
