@@ -267,28 +267,28 @@
 ## Phase 6: Completion Flow
 
 ### 6.1 — Completion detection & modal
-- [ ] Detect when all cells correctly filled → trigger completion
-- [ ] Confetti animation fires
-- [ ] Modal shows: time, difficulty, errors, hints, daily/random badge
-- [ ] Options: "Play Again", "New Game", "Share"
-- [ ] **Tests (`components/modals/CompletionModal.test.tsx`):**
+- [x] Detect when all cells correctly filled → trigger completion
+- [x] Confetti animation fires
+- [x] Modal shows: time, difficulty, errors, hints, daily/random badge
+- [x] Options: "Play Again", "New Game", "Share"
+- [x] **Tests (`components/modals/CompletionModal.test.tsx`):**
   - Modal appears when `isComplete` becomes true
   - Modal displays correct time, difficulty, error count, hint count
   - "Play Again" starts same difficulty
   - "New Game" opens the new game modal
   - Daily completions show "Daily" badge; random show "Random"
-- **Commit:**
+- **Commit:** `e772f59`
 
 ### 6.2 — Hints system
-- [ ] Hint button highlights a logically solvable cell (does not reveal answer)
-- [ ] Hint count tracked and incremented per use
-- [ ] Hint count shown in completion modal
-- [ ] **Tests (`lib/sudoku/hints.test.ts`):**
+- [x] Hint button highlights a logically solvable cell (does not reveal answer)
+- [x] Hint count tracked and incremented per use
+- [x] Hint count shown in completion modal
+- [x] **Tests (`lib/sudoku/hints.test.ts`):**
   - Hint returns a valid cell coordinate that is logically deducible
   - Hint count increments on each use
   - Hint does not reveal the cell's answer (only highlights)
   - Hint returns null when no logically solvable cells remain (all remaining require guessing)
-- **Commit:**
+- **Commit:** `8dbf256`
 
 ---
 

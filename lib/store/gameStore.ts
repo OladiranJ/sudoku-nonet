@@ -3,6 +3,7 @@ import type { Puzzle } from "@/lib/sudoku/puzzle";
 import type { Difficulty } from "@/lib/sudoku/puzzle";
 import { useTimerStore } from "@/lib/store/timerStore";
 import { useDailyStore } from "@/lib/store/dailyStore";
+import { findHintCell } from "@/lib/sudoku/hints";
 
 export interface BoardSnapshot {
   board: number[][];
@@ -34,6 +35,9 @@ export interface GameState {
   // Error tracking (monotonic — never decremented)
   errorCount: number;
 
+  // Hint tracking (monotonic — never decremented)
+  hintCount: number;
+
   // Undo/Redo
   undoStack: BoardSnapshot[];
   redoStack: BoardSnapshot[];
@@ -44,6 +48,7 @@ export interface GameState {
   placeDigit: (digit: number) => void;
   erase: () => void;
   toggleNotesMode: () => void;
+  useHint: () => { row: number; col: number } | null;
   undo: () => void;
   redo: () => void;
   hydrateGame: (data: HydrateData) => void;
@@ -60,6 +65,7 @@ export interface HydrateData {
   isDaily: boolean;
   puzzleDate: string | null;
   errorCount: number;
+  hintCount: number;
   undoStack: BoardSnapshot[];
   redoStack: BoardSnapshot[];
 }
@@ -122,6 +128,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   puzzleDate: null,
   isComplete: false,
   errorCount: 0,
+  hintCount: 0,
   undoStack: [],
   redoStack: [],
 
@@ -138,6 +145,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       puzzleDate: options?.puzzleDate ?? null,
       isComplete: false,
       errorCount: 0,
+      hintCount: 0,
       undoStack: [],
       redoStack: [],
     });
@@ -225,6 +233,20 @@ export const useGameStore = create<GameState>((set, get) => ({
     set((state) => ({ notesMode: !state.notesMode }));
   },
 
+  useHint: () => {
+    const { puzzle, currentBoard, isComplete, hintCount } = get();
+    if (!puzzle || isComplete) return null;
+
+    const hint = findHintCell(currentBoard, puzzle.solution);
+    if (!hint) return null;
+
+    set({
+      selectedCell: { row: hint.row, col: hint.col },
+      hintCount: hintCount + 1,
+    });
+    return hint;
+  },
+
   undo: () => {
     const { undoStack, currentBoard, notes, puzzle, redoStack } = get();
     if (undoStack.length === 0) return;
@@ -286,6 +308,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         ? computeIsComplete(data.currentBoard, data.puzzle.solution)
         : false,
       errorCount: data.errorCount,
+      hintCount: data.hintCount ?? 0,
       undoStack: data.undoStack,
       redoStack: data.redoStack,
     });

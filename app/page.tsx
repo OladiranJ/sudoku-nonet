@@ -4,19 +4,46 @@ import { useState, useEffect } from "react";
 import Board from "@/components/board/Board";
 import Numpad from "@/components/numpad/Numpad";
 import NewGameModal from "@/components/modals/NewGameModal";
+import CompletionModal from "@/components/modals/CompletionModal";
 import { useGameStore } from "@/lib/store/gameStore";
+import { useTimerStore } from "@/lib/store/timerStore";
 import { createPuzzle } from "@/lib/sudoku/puzzle";
 
 export default function Home() {
   const puzzle = useGameStore((s) => s.puzzle);
+  const difficulty = useGameStore((s) => s.difficulty);
+  const isComplete = useGameStore((s) => s.isComplete);
   const startGame = useGameStore((s) => s.startGame);
   const [showNewGameModal, setShowNewGameModal] = useState(false);
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
 
   useEffect(() => {
     if (!puzzle) {
       startGame(createPuzzle("demo-seed", "easy"));
     }
   }, [puzzle, startGame]);
+
+  // Show completion modal when puzzle is solved
+  useEffect(() => {
+    if (isComplete) {
+      setShowCompletionModal(true);
+    }
+  }, [isComplete]);
+
+  const handlePlayAgain = () => {
+    setShowCompletionModal(false);
+    if (difficulty) {
+      const seed = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      const newPuzzle = createPuzzle(seed, difficulty);
+      startGame(newPuzzle, { seed });
+      useTimerStore.getState().start();
+    }
+  };
+
+  const handleNewGame = () => {
+    setShowCompletionModal(false);
+    setShowNewGameModal(true);
+  };
 
   if (!puzzle) return null;
 
@@ -38,6 +65,12 @@ export default function Home() {
           </button>
         </div>
       </div>
+      <CompletionModal
+        isOpen={showCompletionModal}
+        onClose={() => setShowCompletionModal(false)}
+        onPlayAgain={handlePlayAgain}
+        onNewGame={handleNewGame}
+      />
       <NewGameModal
         isOpen={showNewGameModal}
         onClose={() => setShowNewGameModal(false)}
