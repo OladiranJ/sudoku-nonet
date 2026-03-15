@@ -89,14 +89,14 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       data-testid="new-game-modal"
     >
-      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm mx-4">
+      <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl p-6 w-full max-w-sm mx-4">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold">
             {step === 1 ? "Select Difficulty" : "Select Puzzle Type"}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+            className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 text-2xl leading-none"
             aria-label="Close"
           >
             &times;
@@ -109,7 +109,7 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
               <button
                 key={value}
                 onClick={() => handleDifficultySelect(value)}
-                className="w-full py-3 px-4 rounded-md border border-gray-200 text-left font-medium hover:bg-gray-50 active:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                className="w-full py-3 px-4 rounded-md border border-gray-200 dark:border-slate-700 text-left font-medium hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                 data-difficulty={value}
               >
                 {label}
@@ -124,8 +124,8 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
               onClick={() => !dailyLocked && handleStartGame("daily")}
               className={`w-full py-3 px-4 rounded-md border text-left font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 ${
                 dailyLocked
-                  ? "border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed"
-                  : "border-gray-200 hover:bg-gray-50 active:bg-gray-100"
+                  ? "border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-400 dark:text-slate-600 cursor-not-allowed"
+                  : "border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700"
               }`}
               data-puzzle-type="daily"
               disabled={dailyLocked}
@@ -144,14 +144,14 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
             </button>
             <button
               onClick={() => handleStartGame("random")}
-              className="w-full py-3 px-4 rounded-md border border-gray-200 text-left font-medium hover:bg-gray-50 active:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+              className="w-full py-3 px-4 rounded-md border border-gray-200 dark:border-slate-700 text-left font-medium hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               data-puzzle-type="random"
             >
               Random Puzzle
             </button>
             <button
               onClick={() => setStep(1)}
-              className="w-full py-2 px-4 text-gray-500 hover:text-gray-700 text-sm"
+              className="w-full py-2 px-4 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 text-sm"
               data-action="back"
             >
               &larr; Back

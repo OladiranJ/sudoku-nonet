@@ -11,7 +11,7 @@ export default function PauseOverlay() {
   return (
     <div
       data-testid="pause-overlay"
-      className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-white/60"
+      className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-white/60 dark:bg-slate-950/60"
     >
       <button
         data-testid="resume-button"

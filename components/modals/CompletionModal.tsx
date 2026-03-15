@@ -46,41 +46,41 @@ export default function CompletionModal({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       data-testid="completion-modal"
     >
-      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm mx-4 text-center">
+      <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl p-6 w-full max-w-sm mx-4 text-center">
         <h2 className="text-2xl font-bold mb-2">Puzzle Complete!</h2>
 
         <span
-          className="inline-block px-3 py-1 rounded-full text-sm font-medium mb-4"
+          className={`inline-block px-3 py-1 rounded-full text-sm font-medium mb-4 ${
+            isDaily
+              ? "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300"
+              : "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300"
+          }`}
           data-testid="puzzle-badge"
-          style={{
-            backgroundColor: isDaily ? "#dbeafe" : "#f3e8ff",
-            color: isDaily ? "#1d4ed8" : "#7c3aed",
-          }}
         >
           {isDaily ? "Daily" : "Random"}
         </span>
 
         <div className="flex flex-col gap-2 mb-6 text-left">
-          <div className="flex justify-between py-2 border-b border-gray-100">
-            <span className="text-gray-500">Difficulty</span>
+          <div className="flex justify-between py-2 border-b border-gray-100 dark:border-slate-700">
+            <span className="text-gray-500 dark:text-slate-400">Difficulty</span>
             <span className="font-medium" data-testid="stat-difficulty">
               {difficultyLabel}
             </span>
           </div>
-          <div className="flex justify-between py-2 border-b border-gray-100">
-            <span className="text-gray-500">Time</span>
+          <div className="flex justify-between py-2 border-b border-gray-100 dark:border-slate-700">
+            <span className="text-gray-500 dark:text-slate-400">Time</span>
             <span className="font-medium" data-testid="stat-time">
               {formatTime(elapsed)}
             </span>
           </div>
-          <div className="flex justify-between py-2 border-b border-gray-100">
-            <span className="text-gray-500">Errors</span>
+          <div className="flex justify-between py-2 border-b border-gray-100 dark:border-slate-700">
+            <span className="text-gray-500 dark:text-slate-400">Errors</span>
             <span className="font-medium" data-testid="stat-errors">
               {errorCount}
             </span>
           </div>
           <div className="flex justify-between py-2">
-            <span className="text-gray-500">Hints</span>
+            <span className="text-gray-500 dark:text-slate-400">Hints</span>
             <span className="font-medium" data-testid="stat-hints">
               {hintCount}
             </span>
@@ -97,14 +97,14 @@ export default function CompletionModal({
           </button>
           <button
             onClick={onNewGame}
-            className="w-full py-3 px-4 rounded-md border border-gray-200 font-medium hover:bg-gray-50 active:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            className="w-full py-3 px-4 rounded-md border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
             data-action="new-game"
           >
             New Game
           </button>
           <button
             onClick={onClose}
-            className="w-full py-2 px-4 text-gray-500 hover:text-gray-700 text-sm"
+            className="w-full py-2 px-4 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 text-sm"
             data-action="share"
           >
             Share
