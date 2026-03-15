@@ -2,6 +2,7 @@ import { render, fireEvent } from "@testing-library/react";
 import NewGameModal from "@/components/modals/NewGameModal";
 import { useGameStore } from "@/lib/store/gameStore";
 import { useTimerStore } from "@/lib/store/timerStore";
+import { useDailyStore } from "@/lib/store/dailyStore";
 import { createPuzzle } from "@/lib/sudoku/puzzle";
 import * as autoSave from "@/lib/store/autoSave";
 import * as dailyModule from "@/lib/sudoku/daily";
@@ -13,6 +14,7 @@ beforeEach(() => {
   // Initialize store with a game in progress
   useGameStore.getState().startGame(demoPuzzle, { seed: "modal-test-seed" });
   useTimerStore.getState().reset();
+  useDailyStore.setState({ completions: [] });
 });
 
 describe("NewGameModal", () => {
@@ -214,5 +216,68 @@ describe("NewGameModal", () => {
     expect(
       container.querySelector('[data-testid="step-difficulty"]')
     ).not.toBeNull();
+  });
+
+  it("shows completed daily difficulty as locked/disabled in modal", () => {
+    const today = new Date().toISOString().split("T")[0];
+    useDailyStore.getState().markCompleted("hard", today, 272);
+
+    const { container } = render(
+      <NewGameModal isOpen={true} onClose={jest.fn()} />
+    );
+
+    // Select the completed difficulty
+    fireEvent.click(container.querySelector('[data-difficulty="hard"]')!);
+
+    // Daily button should be disabled
+    const dailyBtn = container.querySelector('[data-puzzle-type="daily"]') as HTMLButtonElement;
+    expect(dailyBtn).not.toBeNull();
+    expect(dailyBtn.disabled).toBe(true);
+
+    // Should show locked state with completion time
+    const locked = container.querySelector('[data-testid="daily-locked"]');
+    expect(locked).not.toBeNull();
+    expect(locked!.textContent).toContain("04:32");
+
+    // Should show countdown
+    const countdown = container.querySelector('[data-testid="daily-countdown"]');
+    expect(countdown).not.toBeNull();
+    expect(countdown!.textContent).toMatch(/Next daily in/);
+  });
+
+  it("shows normal Daily Puzzle button for uncompleted difficulty", () => {
+    const today = new Date().toISOString().split("T")[0];
+    // Mark easy as completed, but not medium
+    useDailyStore.getState().markCompleted("easy", today, 100);
+
+    const { container } = render(
+      <NewGameModal isOpen={true} onClose={jest.fn()} />
+    );
+
+    // Select medium (not completed)
+    fireEvent.click(container.querySelector('[data-difficulty="medium"]')!);
+
+    const dailyBtn = container.querySelector('[data-puzzle-type="daily"]') as HTMLButtonElement;
+    expect(dailyBtn.disabled).toBe(false);
+    expect(container.querySelector('[data-testid="daily-locked"]')).toBeNull();
+  });
+
+  it("prevents starting a locked daily puzzle", () => {
+    const today = new Date().toISOString().split("T")[0];
+    useDailyStore.getState().markCompleted("expert", today, 500);
+
+    const originalStartGame = useGameStore.getState().startGame;
+    const mockStartGame = jest.fn(originalStartGame);
+    useGameStore.setState({ startGame: mockStartGame });
+
+    const { container } = render(
+      <NewGameModal isOpen={true} onClose={jest.fn()} />
+    );
+
+    fireEvent.click(container.querySelector('[data-difficulty="expert"]')!);
+    fireEvent.click(container.querySelector('[data-puzzle-type="daily"]')!);
+
+    // Should not start a game since it's locked
+    expect(mockStartGame).not.toHaveBeenCalled();
   });
 });

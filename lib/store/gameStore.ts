@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type { Puzzle } from "@/lib/sudoku/puzzle";
 import type { Difficulty } from "@/lib/sudoku/puzzle";
 import { useTimerStore } from "@/lib/store/timerStore";
+import { useDailyStore } from "@/lib/store/dailyStore";
 
 export interface BoardSnapshot {
   board: number[][];
@@ -188,6 +189,11 @@ export const useGameStore = create<GameState>((set, get) => ({
 
       if (newIsComplete) {
         useTimerStore.getState().stop();
+        const state = get();
+        if (state.isDaily && state.puzzleDate && state.difficulty) {
+          const elapsed = useTimerStore.getState().elapsed;
+          useDailyStore.getState().markCompleted(state.difficulty, state.puzzleDate, elapsed);
+        }
       }
     }
   },
