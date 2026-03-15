@@ -316,16 +316,16 @@
 - **Commit:** `69ec4b1`
 
 ### 7.3 — Brand identity & visual polish
-- [ ] Custom color palette (not default Tailwind)
-- [ ] Display/serif font for "Nonet" wordmark; sans-serif for UI
-- [ ] Layered shadows, intentional spacing, depth system
-- [ ] Interactive states on all clickable elements (hover, focus-visible, active)
-- [ ] WCAG AA contrast on all text
-- [ ] **Tests (visual / manual + screenshot comparison):**
+- [x] Custom color palette (not default Tailwind)
+- [x] Display/serif font for "Nonet" wordmark; sans-serif for UI
+- [x] Layered shadows, intentional spacing, depth system
+- [x] Interactive states on all clickable elements (hover, focus-visible, active)
+- [x] WCAG AA contrast on all text
+- [x] **Tests (visual / manual + screenshot comparison):**
   - Screenshot matches design intent (2 rounds of comparison)
   - No default Tailwind blue/indigo used as primary color
   - All buttons have distinct hover and focus-visible states (E2E or manual check)
-- **Commit:**
+- **Commit:** `b1f9e00`
 
 ---
 

@@ -84,7 +84,7 @@ export default function Home() {
 
             <button
               onClick={() => setShowNewGameModal(true)}
-              className="w-full py-3 px-4 rounded-lg bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 font-medium hover:bg-slate-700 dark:hover:bg-slate-300 active:bg-slate-900 dark:active:bg-slate-100 focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 transition-colors duration-150"
+              className="w-full py-3 px-4 rounded-lg bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 font-medium hover:bg-slate-700 dark:hover:bg-slate-300 active:bg-slate-900 dark:active:bg-slate-100 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 transition-colors duration-150"
               data-testid="new-game-button"
             >
               New Game

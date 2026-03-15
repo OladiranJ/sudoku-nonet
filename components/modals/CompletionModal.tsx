@@ -46,7 +46,7 @@ export default function CompletionModal({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       data-testid="completion-modal"
     >
-      <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl p-6 w-full max-w-sm mx-4 text-center">
+      <div className="bg-white dark:bg-slate-900 rounded-lg shadow-elevated dark:shadow-elevated-dark p-6 w-full max-w-sm mx-4 text-center">
         <h2 className="text-2xl font-bold mb-2">Puzzle Complete!</h2>
 
         <span
@@ -90,14 +90,14 @@ export default function CompletionModal({
         <div className="flex flex-col gap-3">
           <button
             onClick={onPlayAgain}
-            className="w-full py-3 px-4 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 active:bg-indigo-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            className="w-full py-3 px-4 rounded-md bg-brand-600 text-white font-medium hover:bg-brand-700 active:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
             data-action="play-again"
           >
             Play Again
           </button>
           <button
             onClick={onNewGame}
-            className="w-full py-3 px-4 rounded-md border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            className="w-full py-3 px-4 rounded-md border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
             data-action="new-game"
           >
             New Game

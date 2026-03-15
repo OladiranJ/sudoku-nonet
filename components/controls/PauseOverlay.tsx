@@ -16,7 +16,7 @@ export default function PauseOverlay() {
       <button
         data-testid="resume-button"
         onClick={resume}
-        className="px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 transition-transform"
+        className="px-6 py-3 rounded-lg font-semibold text-lg shadow-float dark:shadow-float-dark hover:shadow-elevated dark:hover:shadow-elevated-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 active:scale-95 transition-transform"
       >
         Resume
       </button>
