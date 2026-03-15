@@ -332,15 +332,15 @@
 ## Phase 8: Database & API
 
 ### 8.1 — Supabase schema & RLS
-- [ ] Create all tables: `profiles`, `games`, `follows`, `challenges`, `achievements`, `notifications`, `invites`
-- [ ] Enable RLS on all tables with policies per PRD
-- [ ] `games` table includes `is_daily` and `puzzle_date` columns
-- [ ] **Tests (`server/db/schema.test.ts` or migration verification):**
+- [x] Create all tables: `profiles`, `games`, `follows`, `challenges`, `achievements`, `notifications`, `invites`
+- [x] Enable RLS on all tables with policies per PRD
+- [x] `games` table includes `is_daily` and `puzzle_date` columns
+- [x] **Tests (`server/db/schema.test.ts` or migration verification):**
   - All tables exist with correct columns and types
   - RLS policies: user can read own profile, cannot write another user's profile
   - RLS policies: user can insert own game, cannot insert for another user
   - RLS policies: notifications only readable by own user
-- **Commit:**
+- **Commit:** `2a60968`
 
 ### 8.2 — Supabase client setup
 - [ ] Server-side and client-side Supabase clients configured
