@@ -22,7 +22,7 @@ export default function Timer() {
         <button
           data-testid="timer-pause"
           onClick={pause}
-          className="px-2 py-1 rounded text-xs hover:bg-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 transition-transform"
+          className="px-2 py-1 rounded text-xs hover:bg-gray-200 dark:hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 transition-transform"
           aria-label="Pause"
         >
           ⏸
@@ -32,7 +32,7 @@ export default function Timer() {
         <button
           data-testid="timer-resume"
           onClick={resume}
-          className="px-2 py-1 rounded text-xs hover:bg-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 transition-transform"
+          className="px-2 py-1 rounded text-xs hover:bg-gray-200 dark:hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 transition-transform"
           aria-label="Resume"
         >
           ▶

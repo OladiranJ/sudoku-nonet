@@ -28,8 +28,8 @@ export default function Numpad() {
                 flex items-center justify-center h-12 rounded-lg text-xl font-semibold
                 transition-colors duration-150
                 ${isFull
-                  ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-                  : "bg-slate-200 text-slate-900 hover:bg-slate-300 focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-slate-400 cursor-pointer"
+                  ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed"
+                  : "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 hover:bg-slate-300 dark:hover:bg-slate-600 focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-slate-400 dark:active:bg-slate-500 cursor-pointer"
                 }
               `}
             >
@@ -46,7 +46,7 @@ export default function Numpad() {
             transition-colors duration-150 cursor-pointer
             ${notesMode
               ? "bg-blue-500 text-white hover:bg-blue-600 focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-blue-700"
-              : "bg-slate-200 text-slate-900 hover:bg-slate-300 focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-slate-400"
+              : "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 hover:bg-slate-300 dark:hover:bg-slate-600 focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-slate-400 dark:active:bg-slate-500"
             }`}
           aria-pressed={notesMode}
         >
@@ -56,8 +56,8 @@ export default function Numpad() {
           data-action="erase"
           onClick={() => erase()}
           className="flex items-center justify-center h-12 rounded-lg text-base font-medium
-            bg-slate-200 text-slate-900 hover:bg-slate-300 focus-visible:ring-2 focus-visible:ring-blue-500
-            active:bg-slate-400 cursor-pointer transition-colors duration-150"
+            bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 hover:bg-slate-300 dark:hover:bg-slate-600 focus-visible:ring-2 focus-visible:ring-blue-500
+            active:bg-slate-400 dark:active:bg-slate-500 cursor-pointer transition-colors duration-150"
         >
           Erase
         </button>
@@ -69,8 +69,8 @@ export default function Numpad() {
         className={`flex items-center justify-center h-12 rounded-lg text-base font-medium
           transition-colors duration-150
           ${isComplete
-            ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-            : "bg-amber-100 text-amber-800 hover:bg-amber-200 focus-visible:ring-2 focus-visible:ring-amber-500 active:bg-amber-300 cursor-pointer"
+            ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed"
+            : "bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/60 focus-visible:ring-2 focus-visible:ring-amber-500 active:bg-amber-300 dark:active:bg-amber-900/80 cursor-pointer"
           }`}
       >
         Hint

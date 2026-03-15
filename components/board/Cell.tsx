@@ -27,11 +27,11 @@ function getHighlightClasses(
   isSameNumber: boolean,
   isConflict: boolean
 ): string {
-  if (isSelected) return "cell-selected bg-blue-200";
-  if (isConflict) return "cell-conflict bg-red-100";
-  if (isSameNumber) return "cell-same-number bg-blue-100";
-  if (isPeer) return "cell-peer bg-slate-100";
-  return isClue ? "bg-slate-50" : "bg-white";
+  if (isSelected) return "cell-selected bg-blue-200 dark:bg-blue-900";
+  if (isConflict) return "cell-conflict bg-red-100 dark:bg-red-900/40";
+  if (isSameNumber) return "cell-same-number bg-blue-100 dark:bg-blue-950";
+  if (isPeer) return "cell-peer bg-slate-100 dark:bg-slate-800";
+  return isClue ? "bg-slate-50 dark:bg-slate-800" : "bg-white dark:bg-slate-900";
 }
 
 function NotesGrid({ notes }: { notes: Set<number> }) {
@@ -40,7 +40,7 @@ function NotesGrid({ notes }: { notes: Set<number> }) {
       {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
         <span
           key={d}
-          className="flex items-center justify-center text-[9px] leading-none text-slate-500"
+          className="flex items-center justify-center text-[9px] leading-none text-slate-500 dark:text-slate-400"
           data-note-digit={d}
         >
           {notes.has(d) ? d : ""}
@@ -63,8 +63,8 @@ export default function Cell({
     "flex items-center justify-center text-lg select-none transition-colors duration-150 cursor-pointer";
 
   const textClasses = isConflict && !isSelected
-    ? "font-normal text-red-700"
-    : isClue ? "font-bold text-slate-900" : "font-normal text-indigo-800";
+    ? "font-normal text-red-700 dark:text-red-400"
+    : isClue ? "font-bold text-slate-900 dark:text-slate-100" : "font-normal text-indigo-800 dark:text-indigo-300";
 
   const hasNotes = notes && notes.size > 0 && value === 0;
 
@@ -79,7 +79,7 @@ export default function Cell({
       tabIndex={0}
       aria-readonly={isClue ? true : undefined}
       aria-selected={isSelected ? true : undefined}
-      className={`${baseClasses} ${hasNotes ? "" : textClasses} ${highlightClasses} ${borderClasses} border-slate-800`}
+      className={`${baseClasses} ${hasNotes ? "" : textClasses} ${highlightClasses} ${borderClasses} border-slate-800 dark:border-slate-500`}
       onClick={() => onClick?.(row, col)}
     >
       {hasNotes ? <NotesGrid notes={notes} /> : value > 0 ? value : ""}
