@@ -6,6 +6,7 @@ import { useTimerStore } from "@/lib/store/timerStore";
 import { saveGameState } from "@/lib/store/autoSave";
 import { createPuzzle, type Difficulty } from "@/lib/sudoku/puzzle";
 import { getDailySeed } from "@/lib/sudoku/daily";
+import { useDailyStore, formatTime, getTimeUntilMidnight } from "@/lib/store/dailyStore";
 
 const DIFFICULTIES: { value: Difficulty; label: string }[] = [
   { value: "easy", label: "Easy" },
@@ -26,6 +27,16 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
 
   const startGame = useGameStore((s) => s.startGame);
   const puzzle = useGameStore((s) => s.puzzle);
+  const isDailyCompleted = useDailyStore((s) => s.isDailyCompleted);
+  const getCompletionTime = useDailyStore((s) => s.getCompletionTime);
+
+  const today = new Date().toISOString().split("T")[0];
+  const dailyLocked = selectedDifficulty
+    ? isDailyCompleted(selectedDifficulty, today)
+    : false;
+  const dailyTime = selectedDifficulty
+    ? getCompletionTime(selectedDifficulty, today)
+    : null;
 
   // Reset state when modal opens
   useEffect(() => {
@@ -109,11 +120,26 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
         {step === 2 && (
           <div className="flex flex-col gap-3" data-testid="step-puzzle-type">
             <button
-              onClick={() => handleStartGame("daily")}
-              className="w-full py-3 px-4 rounded-md border border-gray-200 text-left font-medium hover:bg-gray-50 active:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+              onClick={() => !dailyLocked && handleStartGame("daily")}
+              className={`w-full py-3 px-4 rounded-md border text-left font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 ${
+                dailyLocked
+                  ? "border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed"
+                  : "border-gray-200 hover:bg-gray-50 active:bg-gray-100"
+              }`}
               data-puzzle-type="daily"
+              disabled={dailyLocked}
+              aria-disabled={dailyLocked}
             >
-              Daily Puzzle
+              {dailyLocked ? (
+                <span data-testid="daily-locked">
+                  <span className="block">Daily Puzzle — Completed in {formatTime(dailyTime!)}</span>
+                  <span className="block text-xs text-gray-400 mt-1" data-testid="daily-countdown">
+                    Next daily in {getTimeUntilMidnight()}
+                  </span>
+                </span>
+              ) : (
+                "Daily Puzzle"
+              )}
             </button>
             <button
               onClick={() => handleStartGame("random")}
