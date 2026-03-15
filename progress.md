@@ -295,14 +295,14 @@
 ## Phase 7: Theming & Layout
 
 ### 7.1 — Responsive layout (desktop & mobile)
-- [ ] Desktop: side-by-side (board left, controls right)
-- [ ] Mobile: stacked (board top, controls bottom)
-- [ ] Header: Nonet wordmark, nav icons
-- [ ] **Tests (`app/page.test.tsx` or E2E):**
+- [x] Desktop: side-by-side (board left, controls right)
+- [x] Mobile: stacked (board top, controls bottom)
+- [x] Header: Nonet wordmark, nav icons
+- [x] **Tests (`app/page.test.tsx` or E2E):**
   - Desktop viewport: board and controls side-by-side (check layout)
   - Mobile viewport: board above controls (check layout)
   - Header renders with wordmark and icon buttons
-- **Commit:**
+- **Commit:** `25213cf`
 
 ### 7.2 — Dark mode
 - [ ] Toggle button in header
