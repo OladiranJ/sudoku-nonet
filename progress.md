@@ -305,15 +305,15 @@
 - **Commit:** `25213cf`
 
 ### 7.2 — Dark mode
-- [ ] Toggle button in header
-- [ ] Preference persisted in `localStorage`
-- [ ] All components respect dark mode (board, numpad, modals, header)
-- [ ] **Tests (`lib/store/themeStore.test.ts`):**
+- [x] Toggle button in header
+- [x] Preference persisted in `localStorage`
+- [x] All components respect dark mode (board, numpad, modals, header)
+- [x] **Tests (`lib/store/themeStore.test.ts`):**
   - Toggle switches `dark` class on `<html>`
   - Preference saved to `localStorage`
   - On load, preference restored from `localStorage`
   - Default is light mode
-- **Commit:**
+- **Commit:** `69ec4b1`
 
 ### 7.3 — Brand identity & visual polish
 - [ ] Custom color palette (not default Tailwind)
