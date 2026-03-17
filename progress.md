@@ -351,13 +351,13 @@
 - **Commit:** `99e5848`
 
 ### 8.3 — tRPC router setup
-- [ ] Initialize tRPC with Next.js App Router
-- [ ] Create base router with context (auth session)
-- [ ] Wire up `/api/trpc/[trpc]` handler
-- [ ] **Tests (`server/trpc/router.test.ts`):**
+- [x] Initialize tRPC with Next.js App Router
+- [x] Create base router with context (auth session)
+- [x] Wire up `/api/trpc/[trpc]` handler
+- [x] **Tests (`server/trpc/router.test.ts`):**
   - tRPC handler responds to a health-check procedure
   - Context includes session (null for unauthenticated)
-- **Commit:**
+- **Commit:** `2a12e8f`
 
 ### 8.4 — Game submission endpoint
 - [ ] tRPC mutation: `submitGame` — saves completed game to `games` table
