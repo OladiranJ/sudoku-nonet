@@ -343,12 +343,12 @@
 - **Commit:** `2a60968`
 
 ### 8.2 — Supabase client setup
-- [ ] Server-side and client-side Supabase clients configured
-- [ ] Environment variables for Supabase URL and anon key
-- [ ] **Tests (`server/db/client.test.ts`):**
+- [x] Server-side and client-side Supabase clients configured
+- [x] Environment variables for Supabase URL and anon key
+- [x] **Tests (`server/db/client.test.ts`):**
   - Client initializes without error
   - Client can reach Supabase (health check or simple query)
-- **Commit:**
+- **Commit:** `99e5848`
 
 ### 8.3 — tRPC router setup
 - [ ] Initialize tRPC with Next.js App Router
