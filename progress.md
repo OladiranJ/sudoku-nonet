@@ -375,17 +375,17 @@
 ## Phase 9: Auth & Invites
 
 ### 9.1 — Supabase Auth integration
-- [ ] Email + password sign-up/login
-- [ ] Google OAuth
-- [ ] Apple OAuth
-- [ ] Session management (token rotation handled by Supabase)
-- [ ] Public sign-up disabled (invite-only)
-- [ ] **Tests (`server/auth/auth.test.ts`):**
+- [x] Email + password sign-up/login
+- [x] Google OAuth
+- [x] Apple OAuth
+- [x] Session management (token rotation handled by Supabase)
+- [x] Public sign-up disabled (invite-only)
+- [x] **Tests (`server/auth/auth.test.ts`):**
   - Sign-up without invite code is rejected
   - Sign-up with valid invite code succeeds
   - Login with valid credentials returns a session
   - Login with invalid credentials is rejected
-- **Commit:**
+- **Commit:** `165146e`
 
 ### 9.2 — Invite system
 - [ ] Admin generates invite codes from `/admin`
