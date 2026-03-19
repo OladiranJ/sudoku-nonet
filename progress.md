@@ -388,17 +388,17 @@
 - **Commit:** `165146e`
 
 ### 9.2 — Invite system
-- [ ] Admin generates invite codes from `/admin`
-- [ ] Codes are single-use, expire after 24 hours
-- [ ] Sign-up flow: invite code → auth method → username → account
-- [ ] **Tests (`server/trpc/invite.test.ts`):**
+- [x] Admin generates invite codes from `/admin`
+- [x] Codes are single-use, expire after 24 hours
+- [x] Sign-up flow: invite code → auth method → username → account
+- [x] **Tests (`server/trpc/invite.test.ts`):**
   - Admin can generate an invite code
   - Non-admin cannot generate an invite code
   - Valid code can be redeemed exactly once
   - Expired code (>24h) is rejected
   - Already-used code is rejected
   - After redemption, `used_by` and `used_at` are populated
-- **Commit:**
+- **Commit:** `b8cfb4c`
 
 ### 9.3 — Invite landing page (`/invite/[code]`)
 - [ ] Renders sign-up form with code pre-filled
