@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
-import ThemeProvider from "@/components/ThemeProvider";
+import Providers from "@/components/Providers";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-150">
-        <ThemeProvider>{children}</ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
