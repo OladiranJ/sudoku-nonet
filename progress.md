@@ -401,17 +401,17 @@
 - **Commit:** `b8cfb4c`
 
 ### 9.3 — Invite landing page (`/invite/[code]`)
-- [ ] Renders sign-up form with code pre-filled
-- [ ] Validates code on page load (shows error if invalid/expired)
-- [ ] Auth method selection: email, Google, Apple
-- [ ] Username picker after auth
-- [ ] **Tests (`app/invite/InvitePage.test.tsx`):**
+- [x] Renders sign-up form with code pre-filled
+- [x] Validates code on page load (shows error if invalid/expired)
+- [x] Auth method selection: email, Google, Apple
+- [x] Username picker after auth
+- [x] **Tests (`app/invite/InvitePage.test.tsx`):**
   - Page renders with invite code from URL
   - Invalid code shows error message
   - Valid code shows auth method selection
   - After auth, username input appears
   - Submitting username creates profile
-- **Commit:**
+- **Commit:** `eca66cb`
 
 ### 9.4 — Guest experience
 - [ ] Guests can play all puzzle features without an account
