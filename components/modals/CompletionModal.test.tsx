@@ -124,4 +124,36 @@ describe("CompletionModal", () => {
     const badge = container.querySelector('[data-testid="puzzle-badge"]');
     expect(badge!.textContent).toBe("Daily");
   });
+
+  it("shows account prompt for guests", () => {
+    const { container } = render(
+      <CompletionModal
+        isOpen={true}
+        isGuest={true}
+        onClose={jest.fn()}
+        onPlayAgain={jest.fn()}
+        onNewGame={jest.fn()}
+      />
+    );
+
+    const cta = container.querySelector('[data-testid="guest-cta"]');
+    expect(cta).not.toBeNull();
+    expect(cta!.textContent).toContain("Save your stats");
+    expect(cta!.textContent).toContain("create a free account");
+  });
+
+  it("does not show account prompt for authenticated users", () => {
+    const { container } = render(
+      <CompletionModal
+        isOpen={true}
+        isGuest={false}
+        onClose={jest.fn()}
+        onPlayAgain={jest.fn()}
+        onNewGame={jest.fn()}
+      />
+    );
+
+    const cta = container.querySelector('[data-testid="guest-cta"]');
+    expect(cta).toBeNull();
+  });
 });

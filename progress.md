@@ -414,16 +414,16 @@
 - **Commit:** `eca66cb`
 
 ### 9.4 — Guest experience
-- [ ] Guests can play all puzzle features without an account
-- [ ] Stats stored in `localStorage` only
-- [ ] Post-completion prompt: "Save your stats — create a free account"
-- [ ] Guest daily results not submitted to leaderboard
-- [ ] **Tests (`lib/store/guestStore.test.ts`):**
+- [x] Guests can play all puzzle features without an account
+- [x] Stats stored in `localStorage` only
+- [x] Post-completion prompt: "Save your stats — create a free account"
+- [x] Guest daily results not submitted to leaderboard
+- [x] **Tests (`lib/store/guestStore.test.ts`):**
   - Guest game state saves to `localStorage`
   - Guest stats (solved count, best time) accumulate in `localStorage`
   - Completion modal shows account prompt for guests
   - No API call is made to save guest game results
-- **Commit:**
+- **Commit:** `f31a7e6`
 
 ---
 

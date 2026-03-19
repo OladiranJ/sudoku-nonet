@@ -8,6 +8,7 @@ import { formatTime } from "@/lib/store/dailyStore";
 
 interface CompletionModalProps {
   isOpen: boolean;
+  isGuest?: boolean;
   onClose: () => void;
   onPlayAgain: () => void;
   onNewGame: () => void;
@@ -15,6 +16,7 @@ interface CompletionModalProps {
 
 export default function CompletionModal({
   isOpen,
+  isGuest = true,
   onClose,
   onPlayAgain,
   onNewGame,
@@ -86,6 +88,23 @@ export default function CompletionModal({
             </span>
           </div>
         </div>
+
+        {isGuest && (
+          <div
+            className="mb-4 p-3 rounded-md bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800"
+            data-testid="guest-cta"
+          >
+            <p className="text-sm text-amber-800 dark:text-amber-200 font-medium">
+              Save your stats — create a free account
+            </p>
+            <a
+              href="/invite"
+              className="inline-block mt-1 text-sm text-amber-600 dark:text-amber-400 underline hover:text-amber-700 dark:hover:text-amber-300"
+            >
+              Sign up now
+            </a>
+          </div>
+        )}
 
         <div className="flex flex-col gap-3">
           <button
