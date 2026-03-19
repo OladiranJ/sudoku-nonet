@@ -22,6 +22,29 @@ const enforceAuth = t.middleware(({ ctx, next }) => {
 
 export const protectedProcedure = t.procedure.use(enforceAuth);
 
+const enforceAdmin = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.session) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  const { data: profile } = await ctx.supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", ctx.session.user.id)
+    .single();
+
+  if (!profile?.is_admin) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Admin access required",
+    });
+  }
+
+  return next({ ctx: { ...ctx, session: ctx.session } });
+});
+
+export const adminProcedure = t.procedure.use(enforceAdmin);
+
 /**
  * Create tRPC context from a fetch Request.
  * Extracts the Supabase auth session from the Authorization header if present.
