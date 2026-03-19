@@ -1,4 +1,4 @@
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import { createServerClient } from "@/server/db/client";
 import type { SupabaseClient, Session } from "@supabase/supabase-js";
 
@@ -12,6 +12,15 @@ const t = initTRPC.context<Context>().create();
 export const router = t.router;
 export const publicProcedure = t.procedure;
 export const createCallerFactory = t.createCallerFactory;
+
+const enforceAuth = t.middleware(({ ctx, next }) => {
+  if (!ctx.session) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({ ctx: { ...ctx, session: ctx.session } });
+});
+
+export const protectedProcedure = t.procedure.use(enforceAuth);
 
 /**
  * Create tRPC context from a fetch Request.

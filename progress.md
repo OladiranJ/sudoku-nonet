@@ -360,15 +360,15 @@
 - **Commit:** `2a12e8f`
 
 ### 8.4 — Game submission endpoint
-- [ ] tRPC mutation: `submitGame` — saves completed game to `games` table
-- [ ] Validates required fields: seed, difficulty, time, errors, hints, is_daily, puzzle_date
-- [ ] Daily puzzle: rejects if user already has a submission for that date + difficulty
-- [ ] **Tests (`server/trpc/game.test.ts`):**
+- [x] tRPC mutation: `submitGame` — saves completed game to `games` table
+- [x] Validates required fields: seed, difficulty, time, errors, hints, is_daily, puzzle_date
+- [x] Daily puzzle: rejects if user already has a submission for that date + difficulty
+- [x] **Tests (`server/trpc/game.test.ts`):**
   - Valid submission creates a row in `games`
   - Missing fields rejected with validation error
   - Duplicate daily submission for same user + date + difficulty is rejected
   - Random puzzle submissions are always accepted
-- **Commit:**
+- **Commit:** `1bacff8`
 
 ---
 
