@@ -430,54 +430,54 @@
 ## Phase 10: Social Features
 
 ### 10.1 — Public profile page (`/u/[username]`)
-- [ ] Username, avatar, stats per difficulty, recent activity
-- [ ] Follower / following counts
-- [ ] Earned badges
-- [ ] Visible to anyone (no login required)
-- [ ] **Tests (`app/u/ProfilePage.test.tsx`):**
+- [x] Username, avatar, stats per difficulty, recent activity
+- [x] Follower / following counts
+- [x] Earned badges
+- [x] Visible to anyone (no login required)
+- [x] **Tests (`app/u/ProfilePage.test.tsx`):**
   - Page renders with username from URL
   - Stats display for each difficulty (puzzles solved, best time, avg time)
   - Recent activity shows last 10 completions
   - Follower and following counts displayed
   - Badges section shows earned achievements
-- **Commit:**
+- **Commit:** `27b7ad2`
 
 ### 10.2 — Follow system
-- [ ] Follow / unfollow button on profile pages
-- [ ] Follower and following counts update
-- [ ] In-app notification on follow
-- [ ] **Tests (`server/trpc/follow.test.ts`):**
+- [x] Follow / unfollow button on profile pages
+- [x] Follower and following counts update
+- [x] In-app notification on follow
+- [x] **Tests (`server/trpc/follow.test.ts`):**
   - `follow` mutation creates a row in `follows`
   - `unfollow` mutation deletes the row
   - Cannot follow yourself
   - Duplicate follow is a no-op (or returns error gracefully)
   - Following triggers a notification for the followed user
-- **Commit:**
+- **Commit:** `ad02269`
 
 ### 10.3 — Friend feed
-- [ ] Feed of recent completions from followed users
-- [ ] Each item: username, difficulty, time, timestamp
-- [ ] Accessible from main nav
-- [ ] **Tests (`server/trpc/feed.test.ts`):**
+- [x] Feed of recent completions from followed users
+- [x] Each item: username, difficulty, time, timestamp
+- [x] Accessible from main nav
+- [x] **Tests (`server/trpc/feed.test.ts`):**
   - Feed returns games from followed users only
   - Feed excludes games from non-followed users
   - Feed items are ordered by most recent first
   - Feed is empty if user follows no one
-- **Commit:**
+- **Commit:** `1d4ba54`
 
 ### 10.4 — Challenges
-- [ ] After completing a random puzzle, "Challenge a friend" option
-- [ ] Challenge creates a record with seed and challenger's time
-- [ ] Challenged user receives notification
-- [ ] Challenge page shows both results and winner
-- [ ] Daily puzzles cannot be used for challenges
-- [ ] **Tests (`server/trpc/challenge.test.ts`):**
+- [x] After completing a random puzzle, "Challenge a friend" option
+- [x] Challenge creates a record with seed and challenger's time
+- [x] Challenged user receives notification
+- [x] Challenge page shows both results and winner
+- [x] Daily puzzles cannot be used for challenges
+- [x] **Tests (`server/trpc/challenge.test.ts`):**
   - Creating a challenge inserts a row in `challenges` with correct seed and time
   - Challenged user receives a `challenge_received` notification
   - Completing a challenge updates `challenged_time` and sets status to `completed`
   - Challenge page shows both times and highlights the winner
   - Attempting to challenge with a daily puzzle seed is rejected
-- **Commit:**
+- **Commit:** `0126fbd`
 
 ---
 
