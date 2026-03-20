@@ -484,19 +484,19 @@
 ## Phase 11: Leaderboard
 
 ### 11.1 — Leaderboard page (`/leaderboard`)
-- [ ] Ranked by best daily solve time per difficulty
-- [ ] Views: All-time | This week
-- [ ] Friends filter: toggle to show only followed users
-- [ ] Each row: rank, username, best time, daily puzzles solved
-- [ ] Random puzzle results excluded
-- [ ] **Tests (`server/trpc/leaderboard.test.ts` + `app/leaderboard/Leaderboard.test.tsx`):**
+- [x] Ranked by best daily solve time per difficulty
+- [x] Views: All-time | This week
+- [x] Friends filter: toggle to show only followed users
+- [x] Each row: rank, username, best time, daily puzzles solved
+- [x] Random puzzle results excluded
+- [x] **Tests (`server/trpc/leaderboard.test.ts` + `app/leaderboard/Leaderboard.test.tsx`):**
   - Leaderboard returns users ranked by best time for given difficulty
   - Only daily puzzle results are included (random excluded)
   - "This week" view only includes games from the last 7 days
   - Friends filter returns only followed users' results
   - Each entry includes rank, username, best time, solve count
   - Users with no daily solves do not appear
-- **Commit:**
+- **Commit:** `5ec717f`
 
 ---
 
