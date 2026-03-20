@@ -1,11 +1,28 @@
 import { render, fireEvent } from "@testing-library/react";
+
+// Mock canvas-confetti
+jest.mock("canvas-confetti", () => jest.fn());
+
+// Mock tRPC client (ChallengeButton uses follow.getFollowing)
+jest.mock("@/lib/trpc/client", () => ({
+  trpc: {
+    follow: {
+      getFollowing: {
+        useQuery: (_input: unknown, _opts: unknown) => ({ data: [] }),
+      },
+    },
+    challenge: {
+      create: {
+        useMutation: () => ({ mutate: jest.fn(), isPending: false }),
+      },
+    },
+  },
+}));
+
 import CompletionModal from "@/components/modals/CompletionModal";
 import { useGameStore } from "@/lib/store/gameStore";
 import { useTimerStore } from "@/lib/store/timerStore";
 import { createPuzzle } from "@/lib/sudoku/puzzle";
-
-// Mock canvas-confetti
-jest.mock("canvas-confetti", () => jest.fn());
 
 const easyPuzzle = createPuzzle("completion-test-seed", "easy");
 

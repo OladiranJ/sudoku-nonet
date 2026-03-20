@@ -519,16 +519,16 @@
 - **Commit:** `df03ddf`
 
 ### 12.2 — Notifications system
-- [ ] Bell icon in header with unread badge count
-- [ ] Notification types: follow, challenge_received, challenge_result, achievement
-- [ ] Notifications marked read on view
-- [ ] **Tests (`server/trpc/notifications.test.ts` + `components/social/Notifications.test.tsx`):**
+- [x] Bell icon in header with unread badge count
+- [x] Notification types: follow, challenge_received, challenge_result, achievement
+- [x] Notifications marked read on view
+- [x] **Tests (`server/trpc/notifications.test.ts` + `components/social/Notifications.test.tsx`):**
   - Unread count reflects actual unread notifications
   - Opening notifications marks them as read
   - Each notification type renders correctly (follow, challenge, achievement)
   - Notifications are sorted by most recent first
   - Only own notifications are returned (RLS)
-- **Commit:**
+- **Commit:** `e8bf3c9`
 
 ---
 

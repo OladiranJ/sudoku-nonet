@@ -1,7 +1,36 @@
 import { render, screen } from "@testing-library/react";
-import Home from "@/app/page";
 
 jest.mock("canvas-confetti", () => jest.fn());
+
+// Mock tRPC client (Header uses notification.getUnreadCount, ChallengeButton uses follow.getFollowing)
+jest.mock("@/lib/trpc/client", () => ({
+  trpc: {
+    notification: {
+      getUnreadCount: {
+        useQuery: () => ({ data: { count: 0 } }),
+      },
+      list: {
+        useQuery: (_input: unknown, _opts: unknown) => ({ data: [], isLoading: false }),
+      },
+      markAsRead: {
+        useMutation: () => ({ mutate: jest.fn(), isPending: false }),
+      },
+    },
+    follow: {
+      getFollowing: {
+        useQuery: (_input: unknown, _opts: unknown) => ({ data: [] }),
+      },
+    },
+    useUtils: () => ({
+      notification: {
+        getUnreadCount: { invalidate: jest.fn() },
+        list: { invalidate: jest.fn() },
+      },
+    }),
+  },
+}));
+
+import Home from "@/app/page";
 
 // Mock the game store to provide a puzzle so the page renders
 jest.mock("@/lib/store/gameStore", () => {
