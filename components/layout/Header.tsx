@@ -55,9 +55,10 @@ export default function Header() {
             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
         </Link>
-        <button
-          data-testid="nav-stats"
-          aria-label="Stats"
+        <Link
+          href="/leaderboard"
+          data-testid="nav-leaderboard"
+          aria-label="Leaderboard"
           className={NAV_BTN}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -65,7 +66,7 @@ export default function Header() {
             <line x1="12" y1="20" x2="12" y2="4" />
             <line x1="6" y1="20" x2="6" y2="14" />
           </svg>
-        </button>
+        </Link>
         <button
           data-testid="nav-notifications"
           aria-label="Notifications"

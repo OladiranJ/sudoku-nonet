@@ -76,7 +76,7 @@ describe("Page layout", () => {
     const wordmark = screen.getByTestId("wordmark");
     expect(wordmark).toHaveTextContent("Nonet");
 
-    expect(screen.getByTestId("nav-stats")).toBeInTheDocument();
+    expect(screen.getByTestId("nav-leaderboard")).toBeInTheDocument();
     expect(screen.getByTestId("nav-notifications")).toBeInTheDocument();
     expect(screen.getByTestId("nav-theme")).toBeInTheDocument();
     expect(screen.getByTestId("nav-profile")).toBeInTheDocument();
