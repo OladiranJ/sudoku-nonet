@@ -5,6 +5,7 @@ import { inviteRouter } from "./invite";
 import { profileRouter } from "./profile";
 import { followRouter } from "./follow";
 import { feedRouter } from "./feed";
+import { challengeRouter } from "./challenge";
 
 export const appRouter = router({
   healthCheck: publicProcedure.query(() => {
@@ -16,6 +17,7 @@ export const appRouter = router({
   profile: profileRouter,
   follow: followRouter,
   feed: feedRouter,
+  challenge: challengeRouter,
 });
 
 export type AppRouter = typeof appRouter;

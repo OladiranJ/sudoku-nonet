@@ -5,6 +5,7 @@ import confetti from "canvas-confetti";
 import { useGameStore } from "@/lib/store/gameStore";
 import { useTimerStore } from "@/lib/store/timerStore";
 import { formatTime } from "@/lib/store/dailyStore";
+import ChallengeButton from "@/components/social/ChallengeButton";
 
 interface CompletionModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export default function CompletionModal({
   const errorCount = useGameStore((s) => s.errorCount);
   const hintCount = useGameStore((s) => s.hintCount);
   const isDaily = useGameStore((s) => s.isDaily);
+  const seed = useGameStore((s) => s.seed);
   const elapsed = useTimerStore((s) => s.elapsed);
 
   useEffect(() => {
@@ -103,6 +105,17 @@ export default function CompletionModal({
             >
               Sign up now
             </a>
+          </div>
+        )}
+
+        {/* Challenge a Friend — only for random puzzles by logged-in users */}
+        {!isGuest && !isDaily && seed && difficulty && (
+          <div className="mb-4" data-testid="challenge-section">
+            <ChallengeButton
+              puzzleSeed={seed}
+              difficulty={difficulty as "easy" | "medium" | "hard" | "expert"}
+              challengerTime={elapsed}
+            />
           </div>
         )}
 
