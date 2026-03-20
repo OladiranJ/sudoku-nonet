@@ -503,10 +503,10 @@
 ## Phase 12: Achievements & Notifications
 
 ### 12.1 — Achievement detection & persistence
-- [ ] Client-side detection after each game completion
-- [ ] tRPC mutation to confirm and save achievement
-- [ ] Badge definitions per PRD (First Solve, Speed Demon, Expert Mind, Clean Sheet, Hint-Free, Social Butterfly, Challenger)
-- [ ] **Tests (`lib/achievements/achievements.test.ts` + `server/trpc/achievements.test.ts`):**
+- [x] Client-side detection after each game completion
+- [x] tRPC mutation to confirm and save achievement
+- [x] Badge definitions per PRD (First Solve, Speed Demon, Expert Mind, Clean Sheet, Hint-Free, Social Butterfly, Challenger)
+- [x] **Tests (`lib/achievements/achievements.test.ts` + `server/trpc/achievements.test.ts`):**
   - `First Solve` awarded on first completed game
   - `Speed Demon` awarded for Easy < 3 min
   - `Expert Mind` awarded for Expert < 10 min
@@ -516,7 +516,7 @@
   - `Challenger` awarded on first challenge issued
   - Duplicate achievements are not created (unique constraint)
   - Achievement triggers a notification
-- **Commit:**
+- **Commit:** `df03ddf`
 
 ### 12.2 — Notifications system
 - [ ] Bell icon in header with unread badge count
