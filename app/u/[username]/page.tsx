@@ -1,8 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { trpc } from "@/lib/trpc/client";
 import Link from "next/link";
+import EditProfileModal from "@/components/social/EditProfileModal";
+import { isPresetUrl, getPresetById } from "@/components/social/EditProfileModal";
 
 const BADGE_LABELS: Record<string, string> = {
   first_solve: "First Solve",
@@ -43,6 +46,7 @@ const DIFFICULTY_COLORS: Record<string, string> = {
 export default function ProfilePage() {
   const params = useParams<{ username: string }>();
   const username = params.username;
+  const [editOpen, setEditOpen] = useState(false);
 
   const profileQuery = trpc.profile.getByUsername.useQuery(
     { username },
@@ -50,6 +54,22 @@ export default function ProfilePage() {
   );
 
   const userId = profileQuery.data?.id;
+
+  // Backfill avatar from OAuth on first view of own profile
+  const backfillMutation = trpc.profile.backfillAvatar.useMutation({
+    onSuccess: (data) => {
+      if (data.updated) {
+        profileQuery.refetch();
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (userId && !profileQuery.data?.avatar_url && !backfillMutation.isPending) {
+      backfillMutation.mutate();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 
   const statsQuery = trpc.profile.getStats.useQuery(
     { userId: userId! },
@@ -120,6 +140,15 @@ export default function ProfilePage() {
         </Link>
       </div>
 
+      {/* Edit Profile Modal */}
+      <EditProfileModal
+        isOpen={editOpen}
+        onClose={() => { setEditOpen(false); profileQuery.refetch(); }}
+        currentDisplayName={profile.display_name}
+        currentAvatarUrl={profile.avatar_url}
+        username={profile.username}
+      />
+
       {/* Profile Header */}
       <div className="max-w-2xl mx-auto px-4 pb-6" data-testid="profile-header">
         <div className="flex items-center gap-4">
@@ -128,15 +157,27 @@ export default function ProfilePage() {
             className="w-16 h-16 rounded-full bg-brand-100 dark:bg-brand-900/40 flex items-center justify-center text-2xl font-bold text-brand-600 dark:text-brand-400 overflow-hidden shrink-0"
             data-testid="profile-avatar"
           >
-            {profile.avatar_url ? (
-              <img
-                src={profile.avatar_url}
-                alt={profile.username}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              profile.username.charAt(0).toUpperCase()
-            )}
+            {(() => {
+              const presetId = isPresetUrl(profile.avatar_url);
+              if (presetId) {
+                const preset = getPresetById(presetId);
+                return (
+                  <div className={`w-full h-full ${preset?.color ?? "bg-slate-400"} flex items-center justify-center text-white`}>
+                    {profile.username.charAt(0).toUpperCase()}
+                  </div>
+                );
+              }
+              if (profile.avatar_url) {
+                return (
+                  <img
+                    src={profile.avatar_url}
+                    alt={profile.username}
+                    className="w-full h-full object-cover"
+                  />
+                );
+              }
+              return profile.username.charAt(0).toUpperCase();
+            })()}
           </div>
           <div className="min-w-0">
             <h1
@@ -151,6 +192,14 @@ export default function ProfilePage() {
               </p>
             )}
           </div>
+          {/* Edit Profile button — shown for own profile */}
+          <button
+            onClick={() => setEditOpen(true)}
+            className="ml-auto px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-600 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-100 dark:active:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 transition-colors"
+            data-testid="edit-profile-button"
+          >
+            Edit Profile
+          </button>
         </div>
 
         {/* Follow Counts */}

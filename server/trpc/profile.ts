@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { router, publicProcedure } from "./init";
+import { router, publicProcedure, protectedProcedure } from "./init";
 
 type DifficultyStats = {
   difficulty: string;
@@ -125,5 +125,83 @@ export const profileRouter = router({
       }
 
       return data || [];
+    }),
+
+  backfillAvatar: protectedProcedure.mutation(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
+
+    // Check if avatar_url is already set
+    const { data: profile } = await ctx.supabase
+      .from("profiles")
+      .select("avatar_url")
+      .eq("id", userId)
+      .single();
+
+    if (profile?.avatar_url) {
+      return { updated: false, avatar_url: profile.avatar_url };
+    }
+
+    // Try to get avatar from auth user metadata (OAuth providers store it there)
+    const { data: authData } = await ctx.supabase.auth.admin.getUserById(userId);
+    const oauthAvatar =
+      authData?.user?.user_metadata?.avatar_url ||
+      authData?.user?.user_metadata?.picture;
+
+    if (!oauthAvatar) {
+      return { updated: false, avatar_url: null };
+    }
+
+    // Save OAuth avatar to profile
+    const { error } = await ctx.supabase
+      .from("profiles")
+      .update({ avatar_url: oauthAvatar })
+      .eq("id", userId);
+
+    if (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: error.message,
+      });
+    }
+
+    return { updated: true, avatar_url: oauthAvatar };
+  }),
+
+  updateProfile: protectedProcedure
+    .input(
+      z.object({
+        display_name: z.string().max(50).optional(),
+        avatar_url: z.string().url().optional().nullable(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+
+      const updates: Record<string, unknown> = {};
+      if (input.display_name !== undefined) updates.display_name = input.display_name;
+      if (input.avatar_url !== undefined) updates.avatar_url = input.avatar_url;
+
+      if (Object.keys(updates).length === 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "No fields to update",
+        });
+      }
+
+      const { data, error } = await ctx.supabase
+        .from("profiles")
+        .update(updates)
+        .eq("id", userId)
+        .select()
+        .single();
+
+      if (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: error.message,
+        });
+      }
+
+      return data;
     }),
 });

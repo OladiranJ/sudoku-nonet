@@ -53,6 +53,7 @@ jest.mock("@/lib/trpc/client", () => ({
           data: mockProfileError || mockProfileLoading ? undefined : mockProfile,
           isLoading: mockProfileLoading,
           error: mockProfileError,
+          refetch: jest.fn(),
         }),
       },
       getStats: {
@@ -77,6 +78,18 @@ jest.mock("@/lib/trpc/client", () => ({
         useQuery: () => ({
           data: mockAchievements,
           isLoading: false,
+        }),
+      },
+      backfillAvatar: {
+        useMutation: () => ({
+          mutate: jest.fn(),
+          isPending: false,
+        }),
+      },
+      updateProfile: {
+        useMutation: (opts: { onSuccess?: () => void }) => ({
+          mutate: jest.fn(() => { if (opts?.onSuccess) opts.onSuccess(); }),
+          isPending: false,
         }),
       },
     },
