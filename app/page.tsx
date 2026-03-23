@@ -11,14 +11,29 @@ import CompletionModal from "@/components/modals/CompletionModal";
 import { useGameStore } from "@/lib/store/gameStore";
 import { useTimerStore } from "@/lib/store/timerStore";
 import { createPuzzle } from "@/lib/sudoku/puzzle";
+import { trpc } from "@/lib/trpc/client";
 
 export default function Home() {
   const puzzle = useGameStore((s) => s.puzzle);
   const difficulty = useGameStore((s) => s.difficulty);
   const isComplete = useGameStore((s) => s.isComplete);
+  const seed = useGameStore((s) => s.seed);
+  const isDaily = useGameStore((s) => s.isDaily);
+  const puzzleDate = useGameStore((s) => s.puzzleDate);
+  const errorCount = useGameStore((s) => s.errorCount);
+  const hintCount = useGameStore((s) => s.hintCount);
   const startGame = useGameStore((s) => s.startGame);
   const [showNewGameModal, setShowNewGameModal] = useState(false);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [lastGameId, setLastGameId] = useState<string | null>(null);
+
+  const submitGame = trpc.game.submitGame.useMutation({
+    onSuccess: (data) => {
+      if (data?.id) {
+        setLastGameId(data.id);
+      }
+    },
+  });
 
   useEffect(() => {
     if (!puzzle) {
@@ -29,7 +44,23 @@ export default function Home() {
   useEffect(() => {
     if (isComplete) {
       setShowCompletionModal(true);
+      setLastGameId(null);
+
+      // Submit game for logged-in users
+      const elapsed = useTimerStore.getState().elapsed;
+      if (seed && difficulty) {
+        submitGame.mutate({
+          seed,
+          difficulty: difficulty as "easy" | "medium" | "hard" | "expert",
+          time_seconds: elapsed,
+          error_count: errorCount,
+          hint_count: hintCount,
+          is_daily: isDaily,
+          puzzle_date: puzzleDate,
+        });
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isComplete]);
 
   const handlePlayAgain = () => {
@@ -95,6 +126,7 @@ export default function Home() {
 
       <CompletionModal
         isOpen={showCompletionModal}
+        gameId={lastGameId}
         onClose={() => setShowCompletionModal(false)}
         onPlayAgain={handlePlayAgain}
         onNewGame={handleNewGame}

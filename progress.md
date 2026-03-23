@@ -560,15 +560,15 @@
 ## Phase 14: Sharing & OG Images
 
 ### 14.1 — Result card sharing
-- [ ] "Share" button on completion modal generates a URL: `/result/[gameId]`
-- [ ] Result page displays: time, difficulty, errors, username, daily/random badge
-- [ ] Copy link + Web Share API (mobile)
-- [ ] **Tests (`app/result/ResultPage.test.tsx`):**
+- [x] "Share" button on completion modal generates a URL: `/result/[gameId]`
+- [x] Result page displays: time, difficulty, errors, username, daily/random badge
+- [x] Copy link + Web Share API (mobile)
+- [x] **Tests (`app/result/ResultPage.test.tsx`):**
   - Page renders game result for valid gameId
   - Invalid gameId shows 404 or error
   - Copy button copies URL to clipboard
   - Result displays correct stats (time, difficulty, errors, hints)
-- **Commit:**
+- **Commit:** `bdb096f`
 
 ### 14.2 — OG image generation
 - [ ] Vercel OG (satori) generates a styled image per result
