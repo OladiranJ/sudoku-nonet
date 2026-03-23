@@ -127,6 +127,15 @@ export const profileRouter = router({
       return data || [];
     }),
 
+  getMe: protectedProcedure.query(async ({ ctx }) => {
+    const { data } = await ctx.supabase
+      .from("profiles")
+      .select("id, username, display_name, avatar_url, is_admin")
+      .eq("id", ctx.session.user.id)
+      .single();
+    return data;
+  }),
+
   backfillAvatar: protectedProcedure.mutation(async ({ ctx }) => {
     const userId = ctx.session.user.id;
 
