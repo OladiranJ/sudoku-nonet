@@ -571,14 +571,14 @@
 - **Commit:** `bdb096f`
 
 ### 14.2 — OG image generation
-- [ ] Vercel OG (satori) generates a styled image per result
-- [ ] Image includes: Nonet logo, difficulty, time, errors, username
-- [ ] Correct `<meta>` tags for social sharing (og:image, og:title, og:description)
-- [ ] **Tests (`app/result/og/route.test.ts`):**
+- [x] Vercel OG (satori) generates a styled image per result
+- [x] Image includes: Nonet logo, difficulty, time, errors, username
+- [x] Correct `<meta>` tags for social sharing (og:image, og:title, og:description)
+- [x] **Tests (`app/result/og/route.test.ts`):**
   - OG route returns an image (content-type: image/png)
   - Image includes the correct game stats (visual or snapshot test)
   - Meta tags are present in the result page HTML
-- **Commit:**
+- **Commit:** `15378e7`
 
 ---
 
