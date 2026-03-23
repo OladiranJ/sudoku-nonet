@@ -183,6 +183,41 @@ describe("admin route protection — invite procedures", () => {
   });
 });
 
+describe("admin.getUserList", () => {
+  test("admin can fetch the full user list", async () => {
+    const caller = makeCaller(adminSession);
+    const users = await caller.admin.getUserList();
+
+    expect(Array.isArray(users)).toBe(true);
+    // Both the admin and regular user created in beforeAll should appear
+    const adminEntry = users.find((u: { id: string }) => u.id === adminUserId);
+    const regularEntry = users.find((u: { id: string }) => u.id === regularUserId);
+    expect(adminEntry).toBeDefined();
+    expect(regularEntry).toBeDefined();
+  });
+
+  test("each user entry includes username, created_at, and game_count", async () => {
+    const caller = makeCaller(adminSession);
+    const users = await caller.admin.getUserList();
+
+    const entry = users.find((u: { id: string }) => u.id === adminUserId);
+    expect(entry).toBeDefined();
+    expect(typeof entry!.username).toBe("string");
+    expect(typeof entry!.created_at).toBe("string");
+    expect(typeof entry!.game_count).toBe("number");
+  });
+
+  test("non-admin cannot fetch the user list", async () => {
+    const caller = makeCaller(regularSession);
+    await expect(caller.admin.getUserList()).rejects.toMatchObject({ code: "FORBIDDEN" });
+  });
+
+  test("unauthenticated user cannot fetch the user list", async () => {
+    const caller = makeCaller(null);
+    await expect(caller.admin.getUserList()).rejects.toMatchObject({ code: "UNAUTHORIZED" });
+  });
+});
+
 describe("profile.getMe — admin flag", () => {
   test("admin user profile includes is_admin: true", async () => {
     const caller = makeCaller(adminSession);

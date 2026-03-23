@@ -548,12 +548,12 @@
 - **Commit:** `08c0c36`
 
 ### 13.2 — Admin user list
-- [ ] View all registered users: username, join date, game count
-- [ ] **Tests (`server/trpc/admin.test.ts`):**
+- [x] View all registered users: username, join date, game count
+- [x] **Tests (`server/trpc/admin.test.ts`):**
   - Admin can fetch the full user list
   - Non-admin cannot fetch the user list
   - Each user entry includes username, created_at, and game count
-- **Commit:**
+- **Commit:** `089155b`
 
 ---
 

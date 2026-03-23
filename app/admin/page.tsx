@@ -37,6 +37,57 @@ function StatusBadge({ status }: { status: InviteStatus }) {
   );
 }
 
+function UserListSection() {
+  const { data: users, isLoading } = trpc.admin.getUserList.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
+
+  return (
+    <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+      <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+        <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+          Registered Users
+        </h2>
+      </div>
+
+      {isLoading ? (
+        <div className="flex justify-center py-10">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-200 border-t-brand-600" />
+        </div>
+      ) : !users || users.length === 0 ? (
+        <p className="text-center text-sm text-slate-500 dark:text-slate-400 py-10">
+          No users yet.
+        </p>
+      ) : (
+        <table className="w-full text-sm" data-testid="user-list">
+          <thead>
+            <tr className="border-b border-slate-100 dark:border-slate-800">
+              <th className="px-6 py-2.5 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">Username</th>
+              <th className="px-6 py-2.5 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">Joined</th>
+              <th className="px-6 py-2.5 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">Games</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            {users.map((user) => (
+              <tr key={user.id} data-testid={`user-item-${user.id}`}>
+                <td className="px-6 py-3 font-medium text-slate-900 dark:text-slate-100">
+                  {user.username}
+                </td>
+                <td className="px-6 py-3 text-slate-500 dark:text-slate-400">
+                  {formatDate(user.created_at)}
+                </td>
+                <td className="px-6 py-3 text-right text-slate-700 dark:text-slate-300" data-testid={`user-games-${user.id}`}>
+                  {user.game_count}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}
+
 function AdminPanel() {
   const utils = trpc.useUtils();
   const [generatedCode, setGeneratedCode] = useState<string | null>(null);
@@ -131,6 +182,9 @@ function AdminPanel() {
             </p>
           )}
         </div>
+
+        {/* User List */}
+        <UserListSection />
 
         {/* Invite List */}
         <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
