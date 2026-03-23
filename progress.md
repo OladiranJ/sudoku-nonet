@@ -535,17 +535,17 @@
 ## Phase 13: Admin Panel
 
 ### 13.1 — Admin route protection & invite management
-- [ ] `/admin` accessible only to `is_admin = true` users
-- [ ] Generate new invite links with copy button
-- [ ] View pending and used invites
-- [ ] Revoke unused codes
-- [ ] **Tests (`app/admin/AdminPage.test.tsx` + `server/trpc/admin.test.ts`):**
+- [x] `/admin` accessible only to `is_admin = true` users
+- [x] Generate new invite links with copy button
+- [x] View pending and used invites
+- [x] Revoke unused codes
+- [x] **Tests (`app/admin/AdminPage.test.tsx` + `server/trpc/admin.test.ts`):**
   - Non-admin users are redirected away from `/admin`
   - Admin can generate an invite code (API returns code + link)
   - Invite list shows status (pending / used / expired)
   - Revoking an unused invite deletes or invalidates it
   - Revoking an already-used invite is a no-op
-- **Commit:**
+- **Commit:** `08c0c36`
 
 ### 13.2 — Admin user list
 - [ ] View all registered users: username, join date, game count
