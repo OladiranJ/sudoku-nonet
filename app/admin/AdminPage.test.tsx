@@ -14,6 +14,11 @@ const mockInvites = [
   { id: "inv-3", code: "ijkl-9012", status: "expired", created_at: PAST, expires_at: PAST, used_by: null, used_at: null },
 ];
 
+const mockUsers = [
+  { id: "uid-1", username: "alice", created_at: NOW, game_count: 5 },
+  { id: "uid-2", username: "bob",   created_at: NOW, game_count: 0 },
+];
+
 // ---------------------------------------------------------------------------
 // Controllable mock state
 // ---------------------------------------------------------------------------
@@ -26,6 +31,7 @@ let mockMeData: { id: string; username: string; is_admin: boolean } | null = {
 let mockMeLoading = false;
 let mockListData = mockInvites;
 let mockListLoading = false;
+let mockUserListData = mockUsers;
 
 const mockGenerateMutate = jest.fn();
 const mockRevokeMutate = jest.fn();
@@ -75,6 +81,14 @@ jest.mock("@/lib/trpc/client", () => ({
         },
       },
     },
+    admin: {
+      getUserList: {
+        useQuery: (_input: undefined, _opts: unknown) => ({
+          data: mockUserListData,
+          isLoading: false,
+        }),
+      },
+    },
     useUtils: () => ({
       invite: {
         list: { invalidate: mockInvalidateInviteList },
@@ -106,6 +120,7 @@ beforeEach(() => {
   mockMeLoading = false;
   mockListData = mockInvites;
   mockListLoading = false;
+  mockUserListData = mockUsers;
   generateOnSuccess = null;
   revokeOnSuccess = null;
   mockClipboardWriteText.mockResolvedValue(undefined);
@@ -235,5 +250,29 @@ describe("AdminPage — invite list", () => {
     render(<AdminPage />);
     expect(screen.queryByTestId("invite-list")).not.toBeInTheDocument();
     expect(screen.getByText("No invites yet.")).toBeInTheDocument();
+  });
+});
+
+describe("AdminPage — user list", () => {
+  test("user list renders all users", () => {
+    render(<AdminPage />);
+    expect(screen.getByTestId("user-list")).toBeInTheDocument();
+    expect(screen.getByTestId("user-item-uid-1")).toBeInTheDocument();
+    expect(screen.getByTestId("user-item-uid-2")).toBeInTheDocument();
+  });
+
+  test("each row shows username and game count", () => {
+    render(<AdminPage />);
+    expect(screen.getByText("alice")).toBeInTheDocument();
+    expect(screen.getByTestId("user-games-uid-1").textContent).toBe("5");
+    expect(screen.getByText("bob")).toBeInTheDocument();
+    expect(screen.getByTestId("user-games-uid-2").textContent).toBe("0");
+  });
+
+  test("shows empty state when no users", () => {
+    mockUserListData = [];
+    render(<AdminPage />);
+    expect(screen.queryByTestId("user-list")).not.toBeInTheDocument();
+    expect(screen.getByText("No users yet.")).toBeInTheDocument();
   });
 });
