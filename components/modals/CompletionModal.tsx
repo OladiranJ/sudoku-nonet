@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import { useGameStore } from "@/lib/store/gameStore";
 import { useTimerStore } from "@/lib/store/timerStore";
@@ -10,6 +10,7 @@ import ChallengeButton from "@/components/social/ChallengeButton";
 interface CompletionModalProps {
   isOpen: boolean;
   isGuest?: boolean;
+  gameId?: string | null;
   onClose: () => void;
   onPlayAgain: () => void;
   onNewGame: () => void;
@@ -18,6 +19,7 @@ interface CompletionModalProps {
 export default function CompletionModal({
   isOpen,
   isGuest = true,
+  gameId,
   onClose,
   onPlayAgain,
   onNewGame,
@@ -28,6 +30,7 @@ export default function CompletionModal({
   const isDaily = useGameStore((s) => s.isDaily);
   const seed = useGameStore((s) => s.seed);
   const elapsed = useTimerStore((s) => s.elapsed);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -135,11 +138,44 @@ export default function CompletionModal({
             New Game
           </button>
           <button
-            onClick={onClose}
+            onClick={async () => {
+              if (gameId) {
+                const url = `${window.location.origin}/result/${gameId}`;
+                if (navigator.share) {
+                  try {
+                    await navigator.share({
+                      title: "Nonet — Puzzle Result",
+                      text: "Check out my Sudoku result on Nonet!",
+                      url,
+                    });
+                    return;
+                  } catch {
+                    // User cancelled — fall through to copy
+                  }
+                }
+                try {
+                  await navigator.clipboard.writeText(url);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                } catch {
+                  // Fallback
+                  const input = document.createElement("input");
+                  input.value = url;
+                  document.body.appendChild(input);
+                  input.select();
+                  document.execCommand("copy");
+                  document.body.removeChild(input);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }
+              } else {
+                onClose();
+              }
+            }}
             className="w-full py-2 px-4 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 text-sm"
             data-action="share"
           >
-            Share
+            {copied ? "Link Copied!" : "Share"}
           </button>
         </div>
       </div>

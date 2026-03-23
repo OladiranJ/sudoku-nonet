@@ -10,6 +10,7 @@ import { leaderboardRouter } from "./leaderboard";
 import { achievementRouter } from "./achievements";
 import { notificationRouter } from "./notifications";
 import { adminRouter } from "./admin";
+import { resultRouter } from "./result";
 
 export const appRouter = router({
   healthCheck: publicProcedure.query(() => {
@@ -26,6 +27,7 @@ export const appRouter = router({
   achievement: achievementRouter,
   notification: notificationRouter,
   admin: adminRouter,
+  result: resultRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -21,6 +21,11 @@ jest.mock("@/lib/trpc/client", () => ({
         useQuery: (_input: unknown, _opts: unknown) => ({ data: [] }),
       },
     },
+    game: {
+      submitGame: {
+        useMutation: () => ({ mutate: jest.fn(), isPending: false }),
+      },
+    },
     useUtils: () => ({
       notification: {
         getUnreadCount: { invalidate: jest.fn() },
