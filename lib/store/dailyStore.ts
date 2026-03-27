@@ -104,3 +104,8 @@ export const useDailyStore = create<DailyState>((set, get) => ({
     set({ completions: loaded });
   },
 }));
+
+// Expose store for E2E testing in non-production environments
+if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
+  (window as any).__DAILY_STORE__ = useDailyStore;
+}
