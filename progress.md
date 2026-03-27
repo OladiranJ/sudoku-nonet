@@ -585,14 +585,14 @@
 ## Phase 15: Audio & Polish
 
 ### 15.1 — Sound effects
-- [ ] Soft click on cell selection
-- [ ] Chime on puzzle completion
-- [ ] Off by default; toggle in settings, preference saved to `localStorage`
-- [ ] **Tests (`lib/store/audioStore.test.ts`):**
+- [x] Soft click on cell selection
+- [x] Chime on puzzle completion
+- [x] Off by default; toggle in settings, preference saved to `localStorage`
+- [x] **Tests (`lib/store/audioStore.test.ts`):**
   - Audio defaults to off
   - Toggling audio saves preference to `localStorage`
   - Preference restored on load
-- **Commit:**
+- **Commit:** `9cf59b1`
 
 ### 15.2 — Rate limiting
 - [ ] Upstash Redis rate limiting on sensitive endpoints: auth, invite validation, game submission
