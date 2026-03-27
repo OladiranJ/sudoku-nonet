@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo } from "react";
 import type { Puzzle } from "@/lib/sudoku/puzzle";
 import { getConflicts } from "@/lib/sudoku/conflicts";
 import { useGameStore } from "@/lib/store/gameStore";
+import { useAudioStore } from "@/lib/store/audioStore";
 import { useKeyboardInput } from "./useKeyboardInput";
 import Cell from "./Cell";
 
@@ -44,6 +45,7 @@ export default function Board({ puzzle: puzzleProp, currentBoard: currentBoardPr
       setLocalSelectedCell({ row, col });
     } else {
       storeSelectCell(row, col);
+      useAudioStore.getState().playClick();
     }
   }, [usingProps, storeSelectCell]);
 

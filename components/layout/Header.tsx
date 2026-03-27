@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useThemeStore } from "@/lib/store/themeStore";
+import { useAudioStore } from "@/lib/store/audioStore";
 import { trpc } from "@/lib/trpc/client";
 import NotificationsPanel from "@/components/social/NotificationsPanel";
 
@@ -35,6 +36,8 @@ const NAV_BTN = "p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 focus
 export default function Header() {
   const theme = useThemeStore((s) => s.theme);
   const toggle = useThemeStore((s) => s.toggle);
+  const audioEnabled = useAudioStore((s) => s.enabled);
+  const toggleAudio = useAudioStore((s) => s.toggle);
   const [notifOpen, setNotifOpen] = useState(false);
   const { data: unreadData } = trpc.notification.getUnreadCount.useQuery(undefined, {
     refetchInterval: 30_000,
@@ -100,6 +103,26 @@ export default function Header() {
             onClose={() => setNotifOpen(false)}
           />
         </div>
+        <button
+          data-testid="nav-audio"
+          aria-label="Toggle sound"
+          onClick={toggleAudio}
+          className={NAV_BTN}
+        >
+          {audioEnabled ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <line x1="23" y1="9" x2="17" y2="15" />
+              <line x1="17" y1="9" x2="23" y2="15" />
+            </svg>
+          )}
+        </button>
         <button
           data-testid="nav-theme"
           aria-label="Toggle theme"
