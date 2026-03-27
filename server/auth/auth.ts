@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { createClient } from "@supabase/supabase-js";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { router, publicProcedure } from "@/server/trpc/init";
+import { authRateLimit, inviteRateLimit } from "@/server/middleware/rateLimit";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -73,6 +74,7 @@ export const authRouter = router({
    * Creates the auth user (via admin API), profile, and marks the invite used.
    */
   signUp: publicProcedure
+    .use(authRateLimit)
     .input(
       z.object({
         email: z.string().email(),
@@ -153,6 +155,7 @@ export const authRouter = router({
    * Sign in with email + password. Returns a session.
    */
   login: publicProcedure
+    .use(authRateLimit)
     .input(
       z.object({
         email: z.string().email(),
@@ -183,6 +186,7 @@ export const authRouter = router({
    * Check whether an invite code is valid (not used, not expired).
    */
   validateInvite: publicProcedure
+    .use(inviteRateLimit)
     .input(z.object({ code: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       const { data } = await ctx.supabase
@@ -204,6 +208,7 @@ export const authRouter = router({
    * Validates invite and username first, then encodes them in the redirect URL.
    */
   getOAuthUrl: publicProcedure
+    .use(authRateLimit)
     .input(
       z.object({
         inviteCode: z.string().min(1),
@@ -245,6 +250,7 @@ export const authRouter = router({
    * Validates the access token and invite code, creates a profile, marks invite used.
    */
   completeOAuthSignUp: publicProcedure
+    .use(authRateLimit)
     .input(
       z.object({
         inviteCode: z.string().min(1),

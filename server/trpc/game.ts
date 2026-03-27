@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "./init";
+import { gameRateLimit } from "@/server/middleware/rateLimit";
 
 const submitGameInput = z
   .object({
@@ -19,6 +20,7 @@ const submitGameInput = z
 
 export const gameRouter = router({
   submitGame: protectedProcedure
+    .use(gameRateLimit)
     .input(submitGameInput)
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;

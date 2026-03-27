@@ -5,6 +5,7 @@ import type { SupabaseClient, Session } from "@supabase/supabase-js";
 export type Context = {
   session: Session | null;
   supabase: SupabaseClient;
+  clientIp: string;
 };
 
 const t = initTRPC.context<Context>().create();
@@ -54,6 +55,12 @@ export async function createContext(opts: {
 }): Promise<Context> {
   const supabase = createServerClient();
 
+  // Extract client IP for rate limiting
+  const forwarded = opts.req.headers.get("x-forwarded-for");
+  const clientIp = forwarded?.split(",")[0]?.trim() ||
+    opts.req.headers.get("x-real-ip") ||
+    "127.0.0.1";
+
   let session: Session | null = null;
   const authHeader = opts.req.headers.get("authorization");
   if (authHeader?.startsWith("Bearer ")) {
@@ -72,5 +79,5 @@ export async function createContext(opts: {
     }
   }
 
-  return { session, supabase };
+  return { session, supabase, clientIp };
 }
