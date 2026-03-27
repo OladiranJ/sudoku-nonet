@@ -316,3 +316,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
   },
 }));
+
+// Expose store for E2E testing in non-production environments
+if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
+  (window as any).__GAME_STORE__ = useGameStore;
+}
