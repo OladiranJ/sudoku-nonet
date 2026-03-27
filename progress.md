@@ -610,7 +610,7 @@
   - `e2e/full-game-flow.spec.ts` — guest plays a game start to finish
   - `e2e/daily-puzzle.spec.ts` — daily puzzle flow including lockout
   - `e2e/auth-flow.spec.ts` — invite → sign-up → login → play → save
-- **Commit:**
+- **Commit:** `1d920e8`
 
 ---
 
