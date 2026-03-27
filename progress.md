@@ -595,11 +595,11 @@
 - **Commit:** `9cf59b1`
 
 ### 15.2 — Rate limiting
-- [ ] Upstash Redis rate limiting on sensitive endpoints: auth, invite validation, game submission
-- [ ] **Tests (`server/middleware/rateLimit.test.ts`):**
+- [x] Upstash Redis rate limiting on sensitive endpoints: auth, invite validation, game submission
+- [x] **Tests (`server/middleware/rateLimit.test.ts`):**
   - Requests within limit succeed
   - Requests exceeding limit return 429
-- **Commit:**
+- **Commit:** `3abb6e1`
 
 ### 15.3 — Cross-browser & final QA
 - [ ] Test on Chrome (desktop), Safari (mobile), Firefox
