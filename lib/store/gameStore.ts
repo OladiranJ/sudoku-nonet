@@ -3,6 +3,7 @@ import type { Puzzle } from "@/lib/sudoku/puzzle";
 import type { Difficulty } from "@/lib/sudoku/puzzle";
 import { useTimerStore } from "@/lib/store/timerStore";
 import { useDailyStore } from "@/lib/store/dailyStore";
+import { useAudioStore } from "@/lib/store/audioStore";
 import { findHintCell } from "@/lib/sudoku/hints";
 
 export interface BoardSnapshot {
@@ -197,6 +198,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
       if (newIsComplete) {
         useTimerStore.getState().stop();
+        useAudioStore.getState().playChime();
         const state = get();
         if (state.isDaily && state.puzzleDate && state.difficulty) {
           const elapsed = useTimerStore.getState().elapsed;
