@@ -8,6 +8,7 @@ import GameInfo from "@/components/layout/GameInfo";
 import PauseOverlay from "@/components/controls/PauseOverlay";
 import NewGameModal from "@/components/modals/NewGameModal";
 import CompletionModal from "@/components/modals/CompletionModal";
+import SettingsModal from "@/components/modals/SettingsModal";
 import { useGameStore } from "@/lib/store/gameStore";
 import { useTimerStore } from "@/lib/store/timerStore";
 import { createPuzzle } from "@/lib/sudoku/puzzle";
@@ -25,6 +26,7 @@ export default function Home() {
   const startGame = useGameStore((s) => s.startGame);
   const [showNewGameModal, setShowNewGameModal] = useState(false);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [lastGameId, setLastGameId] = useState<string | null>(null);
 
   const submitGame = trpc.game.submitGame.useMutation({
@@ -82,7 +84,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header onOpenSettings={() => setShowSettingsModal(true)} />
 
       <main className="flex-1 flex flex-col items-center px-4 pb-4 md:px-6 md:pb-6">
         {/* Mobile: GameInfo bar above board */}
@@ -110,6 +112,7 @@ export default function Home() {
           {/* Controls panel */}
           <div
             data-testid="controls-panel"
+            data-controls
             className="w-full max-w-xs flex flex-col gap-4"
           >
             {/* Desktop: GameInfo inside controls panel */}
@@ -146,6 +149,10 @@ export default function Home() {
       <NewGameModal
         isOpen={showNewGameModal}
         onClose={() => setShowNewGameModal(false)}
+      />
+      <SettingsModal
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
       />
     </div>
   );

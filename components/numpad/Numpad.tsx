@@ -14,7 +14,7 @@ export default function Numpad() {
   const digitCounts = getDigitCounts(currentBoard);
 
   return (
-    <div className="flex flex-col gap-2 w-full max-w-xs mx-auto" role="group" aria-label="Number pad">
+    <div className="flex flex-col gap-2 w-full max-w-xs mx-auto" role="group" aria-label="Number pad" data-numpad>
       <div className="grid grid-cols-3 gap-2">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((digit) => {
           const isFull = digitCounts[digit] >= 9;

@@ -46,6 +46,7 @@ export interface GameState {
   // Actions
   startGame: (puzzle: Puzzle, options?: StartGameOptions) => void;
   selectCell: (row: number, col: number) => void;
+  deselectCell: () => void;
   placeDigit: (digit: number) => void;
   erase: () => void;
   toggleNotesMode: () => void;
@@ -154,6 +155,10 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   selectCell: (row: number, col: number) => {
     set({ selectedCell: { row, col } });
+  },
+
+  deselectCell: () => {
+    set({ selectedCell: null });
   },
 
   placeDigit: (digit: number) => {

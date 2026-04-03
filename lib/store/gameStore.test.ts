@@ -59,6 +59,13 @@ describe("gameStore — Task 4.1", () => {
     expect(getState().selectedCell).toEqual({ row: 3, col: 4 });
   });
 
+  test("deselectCell clears the selected cell", () => {
+    getState().selectCell(3, 4);
+    expect(getState().selectedCell).toEqual({ row: 3, col: 4 });
+    getState().deselectCell();
+    expect(getState().selectedCell).toBeNull();
+  });
+
   test("toggleNotesMode switches mode", () => {
     expect(getState().notesMode).toBe(false);
     getState().toggleNotesMode();
