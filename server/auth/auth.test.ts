@@ -23,6 +23,7 @@ import { createClient } from "@supabase/supabase-js";
 import { createCallerFactory } from "@/server/trpc/init";
 import { appRouter } from "@/server/trpc/router";
 import { createServerClient } from "@/server/db/client";
+import { cleanupTestUsers, cleanupTestInvitesByCode } from "@/server/test-utils";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -81,6 +82,24 @@ afterAll(async () => {
     await admin.from("profiles").delete().eq("id", userId);
     await admin.auth.admin.deleteUser(userId);
   }
+});
+
+beforeAll(async () => {
+  // Clean up stale data from previous runs
+  await cleanupTestUsers(admin, [
+    "valid-signup@nonet-test.local",
+    "expired-invite@nonet-test.local",
+    "used-invite@nonet-test.local",
+    "dup-username@nonet-test.local",
+    "fake-used-by@nonet-test.local",
+    "no-invite@nonet-test.local",
+  ]);
+  await cleanupTestInvitesByCode(admin, [
+    "valid-signup-test",
+    "expired-invite-test",
+    "used-invite-test",
+    "dup-username-test",
+  ]);
 });
 
 describe("auth.signUp", () => {

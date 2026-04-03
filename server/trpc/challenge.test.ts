@@ -26,6 +26,7 @@ import { createCallerFactory } from "./init";
 import { appRouter } from "./router";
 import { createServerClient } from "@/server/db/client";
 import type { Session } from "@supabase/supabase-js";
+import { cleanupTestUsers } from "@/server/test-utils";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -45,6 +46,11 @@ describe("challenge system", () => {
   const insertedChallengeIds: string[] = [];
 
   beforeAll(async () => {
+    await cleanupTestUsers(admin, [
+      "test-challenge-r@nonet-test.local",
+      "test-challenge-d@nonet-test.local",
+    ]);
+
     // Create challenger
     const { data: d1, error: e1 } = await admin.auth.admin.createUser({
       email: "test-challenge-r@nonet-test.local",

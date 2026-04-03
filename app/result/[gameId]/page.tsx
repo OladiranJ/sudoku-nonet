@@ -185,7 +185,7 @@ export default function ResultPage() {
             >
               {copied ? "Copied!" : "Copy Link"}
             </button>
-            {typeof navigator !== "undefined" && navigator.share && (
+            {typeof navigator !== "undefined" && "share" in navigator && (
               <button
                 onClick={handleShare}
                 className="flex-1 py-2.5 px-4 rounded-md bg-brand-600 text-white font-medium text-sm hover:bg-brand-700 active:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 transition-colors"

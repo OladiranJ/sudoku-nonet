@@ -3,11 +3,23 @@
  */
 
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { cleanupTestUsers } from "@/server/test-utils";
 import * as dotenv from "dotenv";
+import * as fs from "fs";
 import * as path from "path";
 
-// Load .env.local for Supabase credentials
-dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
+// Load .env.local — walk up to find repo root (handles worktrees)
+function findEnvLocal(): string {
+  let dir = process.cwd();
+  while (dir !== path.dirname(dir)) {
+    const candidate = path.join(dir, ".env.local");
+    if (fs.existsSync(candidate)) return candidate;
+    dir = path.dirname(dir);
+  }
+  return path.resolve(process.cwd(), ".env.local");
+}
+
+dotenv.config({ path: findEnvLocal() });
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -152,6 +164,12 @@ describe("RLS policies", () => {
   let userBClient: SupabaseClient;
 
   beforeAll(async () => {
+    // Clean up stale data from previous runs
+    await cleanupTestUsers(admin, [
+      "test-user-a@nonet-test.local",
+      "test-user-b@nonet-test.local",
+    ]);
+
     // Create two test users via admin API
     const { data: userAData, error: errA } =
       await admin.auth.admin.createUser({

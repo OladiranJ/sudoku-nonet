@@ -21,12 +21,8 @@
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.37.0",
     "canvas-confetti": "^1.9.4",
-    "dotenv": "^17.3.1",
-    "lightningcss-win32-x64-msvc": "^1.32.0",
     "next": "^16.1.6",
-    "pg": "^8.20.0",
     "postcss": "^8.5.8",
-    "puppeteer": "^24.39.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "tailwindcss": "^4.2.1",
@@ -47,6 +43,13 @@
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "ts-jest": "^29.4.6",
+    "dotenv": "^17.3.1",
+    "lightningcss-win32-x64-msvc": "^1.32.0",
+    "pg": "^8.20.0",
+    "puppeteer": "^24.39.0",
     "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }

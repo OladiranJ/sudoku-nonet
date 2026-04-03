@@ -27,6 +27,7 @@ import type { Session } from "@supabase/supabase-js";
 import { createCallerFactory } from "@/server/trpc/init";
 import { appRouter } from "@/server/trpc/router";
 import { createServerClient } from "@/server/db/client";
+import { cleanupTestUsers, cleanupTestInvitesByCode } from "@/server/test-utils";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -69,6 +70,11 @@ let regularUserId: string;
 let regularSession: Session;
 
 beforeAll(async () => {
+  await cleanupTestUsers(supabaseAdmin, [
+    "invite-test-admin@nonet-test.local",
+    "invite-test-regular@nonet-test.local",
+  ]);
+
   // Create admin user
   const { data: adminData } = await supabaseAdmin.auth.admin.createUser({
     email: "invite-test-admin@nonet-test.local",

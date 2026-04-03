@@ -23,6 +23,7 @@ import { createClient } from "@supabase/supabase-js";
 import { createCallerFactory } from "./init";
 import { appRouter } from "./router";
 import { createServerClient } from "@/server/db/client";
+import { cleanupTestUsers } from "@/server/test-utils";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -39,6 +40,8 @@ describe("result.getResult", () => {
   let testGameId: string;
 
   beforeAll(async () => {
+    await cleanupTestUsers(admin, ["test-result-page@nonet-test.local"]);
+
     // Create a test user via admin API
     const { data, error } = await admin.auth.admin.createUser({
       email: "test-result-page@nonet-test.local",

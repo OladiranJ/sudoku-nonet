@@ -26,6 +26,7 @@ import { createCallerFactory } from "./init";
 import { appRouter } from "./router";
 import { createServerClient } from "@/server/db/client";
 import type { Session } from "@supabase/supabase-js";
+import { cleanupTestUsers } from "@/server/test-utils";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -51,6 +52,9 @@ describe("leaderboard.getLeaderboard", () => {
       { email: "test-lb-b@nonet-test.local", pass: "test-pass-lb-b!", username: "lb_test_b" },
       { email: "test-lb-c@nonet-test.local", pass: "test-pass-lb-c!", username: "lb_test_c" },
     ];
+
+    // Clean up stale data from previous runs
+    await cleanupTestUsers(admin, users.map((u) => u.email));
 
     const ids: string[] = [];
     for (const u of users) {
