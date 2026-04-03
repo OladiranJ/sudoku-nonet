@@ -22,20 +22,26 @@ export default function Timer() {
         <button
           data-testid="timer-pause"
           onClick={pause}
-          className="px-2 py-1 rounded text-xs hover:bg-gray-200 dark:hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 transition-transform"
+          className="px-2 py-1 rounded text-xs active:scale-95 transition-transform cursor-pointer"
+          style={{ color: "var(--p-text)" }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "var(--p-primary-soft)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
           aria-label="Pause"
         >
-          ⏸
+          \u23F8
         </button>
       )}
       {isPaused && (
         <button
           data-testid="timer-resume"
           onClick={resume}
-          className="px-2 py-1 rounded text-xs hover:bg-gray-200 dark:hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95 transition-transform"
+          className="px-2 py-1 rounded text-xs active:scale-95 transition-transform cursor-pointer"
+          style={{ color: "var(--p-text)" }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "var(--p-primary-soft)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
           aria-label="Resume"
         >
-          ▶
+          \u25B6
         </button>
       )}
     </div>

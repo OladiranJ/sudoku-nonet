@@ -11,12 +11,18 @@ export default function PauseOverlay() {
   return (
     <div
       data-testid="pause-overlay"
-      className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-white/60 dark:bg-slate-950/60"
+      className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-md"
+      style={{ background: "color-mix(in srgb, var(--p-bg) 80%, transparent)" }}
     >
       <button
         data-testid="resume-button"
         onClick={resume}
-        className="px-6 py-3 rounded-lg font-semibold text-lg shadow-float dark:shadow-float-dark hover:shadow-elevated dark:hover:shadow-elevated-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 active:scale-95 transition-transform"
+        className="px-6 py-3 rounded-lg font-semibold text-lg active:scale-95 transition-transform cursor-pointer"
+        style={{
+          background: "var(--p-primary)",
+          color: "var(--p-cell)",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+        }}
       >
         Resume
       </button>

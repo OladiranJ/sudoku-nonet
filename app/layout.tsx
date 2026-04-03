@@ -14,7 +14,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Nonet — Sudoku",
+  title: "Nonet \u2014 Sudoku",
   description: "A browser-based Sudoku game with social features and leaderboards.",
 };
 
@@ -25,7 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
-      <body className="font-sans bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-150">
+      <body
+        className="font-sans transition-colors duration-150"
+        style={{ background: "var(--p-bg)", color: "var(--p-text)" }}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

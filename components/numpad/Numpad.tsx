@@ -24,14 +24,18 @@ export default function Numpad() {
               data-digit={digit}
               disabled={isFull}
               onClick={() => placeDigit(digit)}
-              className={`
-                flex items-center justify-center h-12 rounded-lg text-xl font-semibold
-                transition-colors duration-150
-                ${isFull
-                  ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed"
-                  : "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 hover:bg-slate-300 dark:hover:bg-slate-600 focus-visible:ring-2 focus-visible:ring-brand-500 active:bg-slate-400 dark:active:bg-slate-500 cursor-pointer"
-                }
-              `}
+              className={`flex items-center justify-center h-12 rounded-lg text-xl font-semibold transition-colors duration-150 ${isFull ? "cursor-not-allowed" : "cursor-pointer"}`}
+              style={{
+                background: isFull ? "var(--p-grid)" : "var(--p-secondary)",
+                color: isFull ? "var(--p-text-subtle)" : "var(--p-text)",
+                opacity: isFull ? 0.6 : 1,
+              }}
+              onMouseEnter={(e) => {
+                if (!isFull) e.currentTarget.style.background = "var(--p-box)";
+              }}
+              onMouseLeave={(e) => {
+                if (!isFull) e.currentTarget.style.background = "var(--p-secondary)";
+              }}
             >
               {digit}
             </button>
@@ -42,12 +46,17 @@ export default function Numpad() {
         <button
           data-action="notes"
           onClick={() => toggleNotesMode()}
-          className={`flex items-center justify-center h-12 rounded-lg text-base font-medium
-            transition-colors duration-150 cursor-pointer
-            ${notesMode
-              ? "bg-brand-600 text-white hover:bg-brand-700 focus-visible:ring-2 focus-visible:ring-brand-500 active:bg-brand-800"
-              : "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 hover:bg-slate-300 dark:hover:bg-slate-600 focus-visible:ring-2 focus-visible:ring-brand-500 active:bg-slate-400 dark:active:bg-slate-500"
-            }`}
+          className="flex items-center justify-center h-12 rounded-lg text-base font-medium transition-colors duration-150 cursor-pointer"
+          style={{
+            background: notesMode ? "var(--p-primary)" : "var(--p-secondary)",
+            color: notesMode ? "var(--p-cell)" : "var(--p-text)",
+          }}
+          onMouseEnter={(e) => {
+            if (!notesMode) e.currentTarget.style.background = "var(--p-box)";
+          }}
+          onMouseLeave={(e) => {
+            if (!notesMode) e.currentTarget.style.background = "var(--p-secondary)";
+          }}
           aria-pressed={notesMode}
         >
           {notesMode ? "Notes ON" : "Notes"}
@@ -55,9 +64,13 @@ export default function Numpad() {
         <button
           data-action="erase"
           onClick={() => erase()}
-          className="flex items-center justify-center h-12 rounded-lg text-base font-medium
-            bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100 hover:bg-slate-300 dark:hover:bg-slate-600 focus-visible:ring-2 focus-visible:ring-brand-500
-            active:bg-slate-400 dark:active:bg-slate-500 cursor-pointer transition-colors duration-150"
+          className="flex items-center justify-center h-12 rounded-lg text-base font-medium transition-colors duration-150 cursor-pointer"
+          style={{
+            background: "var(--p-secondary)",
+            color: "var(--p-text)",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "var(--p-box)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "var(--p-secondary)"; }}
         >
           Erase
         </button>
@@ -66,12 +79,19 @@ export default function Numpad() {
         data-action="hint"
         onClick={() => useHint()}
         disabled={isComplete}
-        className={`flex items-center justify-center h-12 rounded-lg text-base font-medium
-          transition-colors duration-150
-          ${isComplete
-            ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed"
-            : "bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 hover:bg-amber-200 dark:hover:bg-amber-900/60 focus-visible:ring-2 focus-visible:ring-brand-500 active:bg-amber-300 dark:active:bg-amber-900/80 cursor-pointer"
-          }`}
+        className="flex items-center justify-center h-12 rounded-lg text-base font-medium transition-colors duration-150"
+        style={{
+          background: isComplete ? "var(--p-grid)" : "var(--p-primary-hover)",
+          color: isComplete ? "var(--p-text-subtle)" : "var(--p-primary)",
+          cursor: isComplete ? "not-allowed" : "pointer",
+          border: isComplete ? "none" : "1px solid var(--p-primary)",
+        }}
+        onMouseEnter={(e) => {
+          if (!isComplete) e.currentTarget.style.background = "var(--p-primary-soft)";
+        }}
+        onMouseLeave={(e) => {
+          if (!isComplete) e.currentTarget.style.background = "var(--p-primary-hover)";
+        }}
       >
         Hint
       </button>

@@ -86,18 +86,28 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: "rgba(0,0,0,0.45)" }}
       data-testid="new-game-modal"
     >
-      <div className="bg-white dark:bg-slate-900 rounded-lg shadow-elevated dark:shadow-elevated-dark p-6 w-full max-w-sm mx-4">
+      <div
+        className="rounded-xl p-6 w-full max-w-sm mx-4"
+        style={{
+          background: "var(--p-cell)",
+          boxShadow: "0 16px 48px rgba(0,0,0,0.15), 0 0 0 1px var(--p-grid)",
+        }}
+      >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">
+          <h2 className="text-xl font-bold" style={{ color: "var(--p-text)" }}>
             {step === 1 ? "Select Difficulty" : "Select Puzzle Type"}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 text-2xl leading-none"
+            className="text-2xl leading-none cursor-pointer"
+            style={{ color: "var(--p-text-muted)" }}
             aria-label="Close"
+            onMouseEnter={(e) => { e.currentTarget.style.color = "var(--p-text)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "var(--p-text-muted)"; }}
           >
             &times;
           </button>
@@ -109,7 +119,14 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
               <button
                 key={value}
                 onClick={() => handleDifficultySelect(value)}
-                className="w-full py-3 px-4 rounded-md border border-gray-200 dark:border-slate-700 text-left font-medium hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+                className="w-full py-3 px-4 rounded-lg text-left font-medium transition-colors duration-150 cursor-pointer"
+                style={{
+                  border: "1px solid var(--p-grid)",
+                  color: "var(--p-text)",
+                  background: "transparent",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "var(--p-primary-soft)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
                 data-difficulty={value}
               >
                 {label}
@@ -122,11 +139,19 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
           <div className="flex flex-col gap-3" data-testid="step-puzzle-type">
             <button
               onClick={() => !dailyLocked && handleStartGame("daily")}
-              className={`w-full py-3 px-4 rounded-md border text-left font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 ${
-                dailyLocked
-                  ? "border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-400 dark:text-slate-600 cursor-not-allowed"
-                  : "border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700"
-              }`}
+              className="w-full py-3 px-4 rounded-lg text-left font-medium transition-colors duration-150"
+              style={{
+                border: "1px solid var(--p-grid)",
+                color: dailyLocked ? "var(--p-text-subtle)" : "var(--p-text)",
+                background: dailyLocked ? "var(--p-cell-hover)" : "transparent",
+                cursor: dailyLocked ? "not-allowed" : "pointer",
+              }}
+              onMouseEnter={(e) => {
+                if (!dailyLocked) e.currentTarget.style.background = "var(--p-primary-soft)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = dailyLocked ? "var(--p-cell-hover)" : "transparent";
+              }}
               data-puzzle-type="daily"
               disabled={dailyLocked}
               aria-disabled={dailyLocked}
@@ -134,7 +159,7 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
               {dailyLocked ? (
                 <span data-testid="daily-locked">
                   <span className="block">Daily Puzzle — Completed in {formatTime(dailyTime!)}</span>
-                  <span className="block text-xs text-gray-400 mt-1" data-testid="daily-countdown">
+                  <span className="block text-xs mt-1" style={{ color: "var(--p-text-subtle)" }} data-testid="daily-countdown">
                     Next daily in {getTimeUntilMidnight()}
                   </span>
                 </span>
@@ -144,14 +169,22 @@ export default function NewGameModal({ isOpen, onClose }: NewGameModalProps) {
             </button>
             <button
               onClick={() => handleStartGame("random")}
-              className="w-full py-3 px-4 rounded-md border border-gray-200 dark:border-slate-700 text-left font-medium hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+              className="w-full py-3 px-4 rounded-lg text-left font-medium transition-colors duration-150 cursor-pointer"
+              style={{
+                border: "1px solid var(--p-grid)",
+                color: "var(--p-text)",
+                background: "transparent",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "var(--p-primary-soft)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
               data-puzzle-type="random"
             >
               Random Puzzle
             </button>
             <button
               onClick={() => setStep(1)}
-              className="w-full py-2 px-4 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 text-sm"
+              className="w-full py-2 px-4 text-sm cursor-pointer"
+              style={{ color: "var(--p-text-muted)" }}
               data-action="back"
             >
               &larr; Back
