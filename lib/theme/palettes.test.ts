@@ -56,8 +56,11 @@ describe("palettes", () => {
     expect(vars["--p-cell"]).toBe("#FEFEFF");
     expect(vars["--p-grid"]).toBe("#D8D0E0");
     expect(vars["--p-box"]).toBe("#B0A4C8");
-    expect(vars["--p-selected"]).toBe("#EDE6F5");
+    expect(vars["--p-selected"]).toBe("#8B78C0");
     expect(vars["--p-secondary"]).toBe("#C4B8D8");
+    // Highlight colors
+    expect(vars["--p-peer"]).toBe("#E8E0F0");
+    expect(vars["--p-same-number"]).toBe("#C8B8E0");
     // Derived utility colors
     expect(vars["--p-primary-hover"]).toBeDefined();
     expect(vars["--p-primary-soft"]).toBeDefined();
