@@ -6,6 +6,7 @@ import { useThemeStore } from "@/lib/store/themeStore";
 import { useAudioStore } from "@/lib/store/audioStore";
 import { trpc } from "@/lib/trpc/client";
 import NotificationsPanel from "@/components/social/NotificationsPanel";
+import PalettePicker from "@/components/theme/PalettePicker";
 
 function MoonIcon() {
   return (
@@ -31,7 +32,49 @@ function SunIcon() {
   );
 }
 
-const NAV_BTN = "p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-slate-400 active:bg-slate-200 dark:active:bg-slate-700 transition-colors duration-150";
+function NavButton({ children, onClick, ariaLabel, testId, ...rest }: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  ariaLabel: string;
+  testId: string;
+  className?: string;
+}) {
+  return (
+    <button
+      data-testid={testId}
+      aria-label={ariaLabel}
+      onClick={onClick}
+      className="p-2 rounded-lg transition-colors duration-150 cursor-pointer"
+      style={{ color: "var(--p-text)" }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "var(--p-primary-soft)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+}
+
+function NavLink({ children, href, ariaLabel, testId }: {
+  children: React.ReactNode;
+  href: string;
+  ariaLabel: string;
+  testId: string;
+}) {
+  return (
+    <Link
+      href={href}
+      data-testid={testId}
+      aria-label={ariaLabel}
+      className="p-2 rounded-lg transition-colors duration-150"
+      style={{ color: "var(--p-text)" }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "var(--p-primary-soft)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+    >
+      {children}
+    </Link>
+  );
+}
 
 export default function Header() {
   const theme = useThemeStore((s) => s.theme);
@@ -48,41 +91,35 @@ export default function Header() {
     <header
       data-testid="header"
       className="flex items-center justify-between w-full px-4 py-3 md:px-6"
+      style={{ borderBottom: "1px solid var(--p-grid)" }}
     >
-      <h1 className="text-2xl font-bold tracking-tight font-serif" data-testid="wordmark">
+      <h1
+        className="text-2xl font-bold tracking-tight font-serif"
+        data-testid="wordmark"
+        style={{ color: "var(--p-text)", letterSpacing: "-0.03em" }}
+      >
         Nonet
       </h1>
       <nav className="flex items-center gap-1" aria-label="Main navigation">
-        <Link
-          href="/feed"
-          data-testid="nav-feed"
-          aria-label="Friend Feed"
-          className={NAV_BTN}
-        >
+        <NavLink href="/feed" ariaLabel="Friend Feed" testId="nav-feed">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
             <circle cx="9" cy="7" r="4" />
             <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
-        </Link>
-        <Link
-          href="/leaderboard"
-          data-testid="nav-leaderboard"
-          aria-label="Leaderboard"
-          className={NAV_BTN}
-        >
+        </NavLink>
+        <NavLink href="/leaderboard" ariaLabel="Leaderboard" testId="nav-leaderboard">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <line x1="18" y1="20" x2="18" y2="10" />
             <line x1="12" y1="20" x2="12" y2="4" />
             <line x1="6" y1="20" x2="6" y2="14" />
           </svg>
-        </Link>
+        </NavLink>
         <div className="relative">
-          <button
-            data-testid="nav-notifications"
-            aria-label="Notifications"
-            className={NAV_BTN}
+          <NavButton
+            testId="nav-notifications"
+            ariaLabel="Notifications"
             onClick={() => setNotifOpen((prev) => !prev)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -92,23 +129,19 @@ export default function Header() {
             {unreadCount > 0 && (
               <span
                 data-testid="unread-badge"
-                className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold leading-none px-1"
+                className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full text-white text-[10px] font-bold leading-none px-1"
+                style={{ background: "var(--p-error)" }}
               >
                 {unreadCount > 99 ? "99+" : unreadCount}
               </span>
             )}
-          </button>
+          </NavButton>
           <NotificationsPanel
             open={notifOpen}
             onClose={() => setNotifOpen(false)}
           />
         </div>
-        <button
-          data-testid="nav-audio"
-          aria-label="Toggle sound"
-          onClick={toggleAudio}
-          className={NAV_BTN}
-        >
+        <NavButton testId="nav-audio" ariaLabel="Toggle sound" onClick={toggleAudio}>
           {audioEnabled ? (
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
@@ -122,25 +155,17 @@ export default function Header() {
               <line x1="17" y1="9" x2="23" y2="15" />
             </svg>
           )}
-        </button>
-        <button
-          data-testid="nav-theme"
-          aria-label="Toggle theme"
-          onClick={toggle}
-          className={NAV_BTN}
-        >
+        </NavButton>
+        <PalettePicker />
+        <NavButton testId="nav-theme" ariaLabel="Toggle theme" onClick={toggle}>
           {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-        </button>
-        <button
-          data-testid="nav-profile"
-          aria-label="Profile"
-          className={NAV_BTN}
-        >
+        </NavButton>
+        <NavButton testId="nav-profile" ariaLabel="Profile">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
-        </button>
+        </NavButton>
       </nav>
     </header>
   );

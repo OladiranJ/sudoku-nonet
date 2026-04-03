@@ -50,61 +50,70 @@ export default function CompletionModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: "rgba(0,0,0,0.45)" }}
       data-testid="completion-modal"
     >
-      <div className="bg-white dark:bg-slate-900 rounded-lg shadow-elevated dark:shadow-elevated-dark p-6 w-full max-w-sm mx-4 text-center">
+      <div
+        className="rounded-xl p-6 w-full max-w-sm mx-4 text-center"
+        style={{
+          background: "var(--p-cell)",
+          boxShadow: "0 16px 48px rgba(0,0,0,0.15), 0 0 0 1px var(--p-grid)",
+          color: "var(--p-text)",
+        }}
+      >
         <h2 className="text-2xl font-bold mb-2">Puzzle Complete!</h2>
 
         <span
-          className={`inline-block px-3 py-1 rounded-full text-sm font-medium mb-4 ${
-            isDaily
-              ? "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300"
-              : "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300"
-          }`}
+          className="inline-block px-3 py-1 rounded-full text-sm font-medium mb-4"
+          style={{
+            background: isDaily ? "var(--p-primary-soft)" : "var(--p-secondary)",
+            color: isDaily ? "var(--p-primary)" : "var(--p-text)",
+            border: `1px solid ${isDaily ? "var(--p-primary-hover)" : "var(--p-grid)"}`,
+          }}
           data-testid="puzzle-badge"
         >
           {isDaily ? "Daily" : "Random"}
         </span>
 
         <div className="flex flex-col gap-2 mb-6 text-left">
-          <div className="flex justify-between py-2 border-b border-gray-100 dark:border-slate-700">
-            <span className="text-gray-500 dark:text-slate-400">Difficulty</span>
-            <span className="font-medium" data-testid="stat-difficulty">
-              {difficultyLabel}
-            </span>
-          </div>
-          <div className="flex justify-between py-2 border-b border-gray-100 dark:border-slate-700">
-            <span className="text-gray-500 dark:text-slate-400">Time</span>
-            <span className="font-medium" data-testid="stat-time">
-              {formatTime(elapsed)}
-            </span>
-          </div>
-          <div className="flex justify-between py-2 border-b border-gray-100 dark:border-slate-700">
-            <span className="text-gray-500 dark:text-slate-400">Errors</span>
-            <span className="font-medium" data-testid="stat-errors">
-              {errorCount}
-            </span>
-          </div>
-          <div className="flex justify-between py-2">
-            <span className="text-gray-500 dark:text-slate-400">Hints</span>
-            <span className="font-medium" data-testid="stat-hints">
-              {hintCount}
-            </span>
-          </div>
+          {[
+            { label: "Difficulty", value: difficultyLabel, testId: "stat-difficulty" },
+            { label: "Time", value: formatTime(elapsed), testId: "stat-time" },
+            { label: "Errors", value: String(errorCount), testId: "stat-errors" },
+            { label: "Hints", value: String(hintCount), testId: "stat-hints" },
+          ].map((stat, i, arr) => (
+            <div
+              key={stat.label}
+              className="flex justify-between py-2"
+              style={{
+                borderBottom: i < arr.length - 1 ? "1px solid var(--p-grid)" : "none",
+              }}
+            >
+              <span style={{ color: "var(--p-text-muted)" }}>{stat.label}</span>
+              <span className="font-medium" data-testid={stat.testId}>
+                {stat.value}
+              </span>
+            </div>
+          ))}
         </div>
 
         {isGuest && (
           <div
-            className="mb-4 p-3 rounded-md bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800"
+            className="mb-4 p-3 rounded-lg"
+            style={{
+              background: "var(--p-primary-soft)",
+              border: "1px solid var(--p-primary-hover)",
+            }}
             data-testid="guest-cta"
           >
-            <p className="text-sm text-amber-800 dark:text-amber-200 font-medium">
+            <p className="text-sm font-medium" style={{ color: "var(--p-primary)" }}>
               Save your stats — create a free account
             </p>
             <a
               href="/invite"
-              className="inline-block mt-1 text-sm text-amber-600 dark:text-amber-400 underline hover:text-amber-700 dark:hover:text-amber-300"
+              className="inline-block mt-1 text-sm underline"
+              style={{ color: "var(--p-primary)" }}
             >
               Sign up now
             </a>
@@ -125,14 +134,25 @@ export default function CompletionModal({
         <div className="flex flex-col gap-3">
           <button
             onClick={onPlayAgain}
-            className="w-full py-3 px-4 rounded-md bg-brand-600 text-white font-medium hover:bg-brand-700 active:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+            className="w-full py-3 px-4 rounded-lg font-medium transition-colors duration-150 cursor-pointer"
+            style={{
+              background: "var(--p-primary)",
+              color: "var(--p-cell)",
+            }}
             data-action="play-again"
           >
             Play Again
           </button>
           <button
             onClick={onNewGame}
-            className="w-full py-3 px-4 rounded-md border border-gray-200 dark:border-slate-700 font-medium hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 dark:active:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+            className="w-full py-3 px-4 rounded-lg font-medium transition-colors duration-150 cursor-pointer"
+            style={{
+              border: "1px solid var(--p-grid)",
+              color: "var(--p-text)",
+              background: "transparent",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "var(--p-primary-soft)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
             data-action="new-game"
           >
             New Game
@@ -144,7 +164,7 @@ export default function CompletionModal({
                 if (navigator.share) {
                   try {
                     await navigator.share({
-                      title: "Nonet — Puzzle Result",
+                      title: "Nonet \u2014 Puzzle Result",
                       text: "Check out my Sudoku result on Nonet!",
                       url,
                     });
@@ -172,7 +192,8 @@ export default function CompletionModal({
                 onClose();
               }
             }}
-            className="w-full py-2 px-4 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 text-sm"
+            className="w-full py-2 px-4 text-sm cursor-pointer"
+            style={{ color: "var(--p-text-muted)" }}
             data-action="share"
           >
             {copied ? "Link Copied!" : "Share"}

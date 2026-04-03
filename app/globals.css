@@ -6,6 +6,7 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
 
+  /* Legacy brand colors kept for backward compat with non-board UI (errors, hints, etc.) */
   --color-brand-50: #f0fdfa;
   --color-brand-100: #ccfbf1;
   --color-brand-200: #99f6e4;
@@ -22,4 +23,24 @@
   --shadow-elevated-dark: 0 4px 6px -1px rgba(0,0,0,0.3), 0 10px 20px -3px rgba(0,0,0,0.2);
   --shadow-float: 0 2px 8px -2px rgba(13,148,136,0.15);
   --shadow-float-dark: 0 2px 8px -2px rgba(0,0,0,0.3);
+}
+
+/* Palette-driven CSS custom properties — defaults match "Warm Sand" light */
+:root {
+  --p-bg: #FFF8F0;
+  --p-cell: #FFFFFF;
+  --p-primary: #D4956A;
+  --p-secondary: #E8C4A0;
+  --p-selected: #FAEBD7;
+  --p-text: #5C4033;
+  --p-grid: #E0D0C0;
+  --p-box: #C4A882;
+  --p-primary-hover: rgba(212, 149, 106, 0.15);
+  --p-primary-soft: rgba(212, 149, 106, 0.08);
+  --p-text-muted: rgba(92, 64, 51, 0.55);
+  --p-text-subtle: rgba(92, 64, 51, 0.35);
+  --p-cell-hover: rgba(212, 149, 106, 0.06);
+  --p-error: #dc2626;
+  --p-error-bg-light: #fef2f2;
+  --p-error-bg-dark: rgba(153, 27, 27, 0.4);
 }

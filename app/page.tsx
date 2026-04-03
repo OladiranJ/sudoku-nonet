@@ -96,7 +96,13 @@ export default function Home() {
           className="flex flex-col md:flex-row items-center md:items-start gap-6 w-full max-w-4xl"
         >
           {/* Board section */}
-          <div className="relative w-full max-w-lg" data-testid="board-section">
+          <div
+            className="relative w-full max-w-lg rounded-xl overflow-hidden"
+            data-testid="board-section"
+            style={{
+              boxShadow: "0 2px 16px rgba(0,0,0,0.06), 0 0 0 1px var(--p-grid)",
+            }}
+          >
             <Board />
             <PauseOverlay />
           </div>
@@ -115,7 +121,13 @@ export default function Home() {
 
             <button
               onClick={() => setShowNewGameModal(true)}
-              className="w-full py-3 px-4 rounded-lg bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 font-medium hover:bg-slate-700 dark:hover:bg-slate-300 active:bg-slate-900 dark:active:bg-slate-100 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 transition-colors duration-150"
+              className="w-full py-3 px-4 rounded-lg font-medium transition-colors duration-150 cursor-pointer"
+              style={{
+                background: "var(--p-primary)",
+                color: "var(--p-cell)",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
               data-testid="new-game-button"
             >
               New Game

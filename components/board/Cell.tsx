@@ -20,18 +20,41 @@ function getBorderClasses(row: number, col: number): string {
   return classes.join(" ");
 }
 
-function getHighlightClasses(
+function getBorderColor(row: number, col: number): string {
+  // Box boundaries get the heavier box-border color, inner lines get grid color
+  const isBoxTop = row % 3 === 0;
+  const isBoxLeft = col % 3 === 0;
+  const isBottom = row === 8;
+  const isRight = col === 8;
+  if (isBoxTop || isBoxLeft || isBottom || isRight) return "var(--p-box)";
+  return "var(--p-grid)";
+}
+
+function getHighlightBg(
   isClue: boolean,
   isSelected: boolean,
   isPeer: boolean,
   isSameNumber: boolean,
   isConflict: boolean
 ): string {
-  if (isSelected) return "cell-selected bg-brand-100 dark:bg-brand-900";
-  if (isConflict) return "cell-conflict bg-red-100 dark:bg-red-900/40";
-  if (isSameNumber) return "cell-same-number bg-brand-50 dark:bg-brand-950";
-  if (isPeer) return "cell-peer bg-slate-100 dark:bg-slate-800";
-  return isClue ? "bg-slate-50 dark:bg-slate-800" : "bg-white dark:bg-slate-900";
+  if (isSelected) return "var(--p-selected)";
+  if (isConflict) return "var(--p-error-bg-light)";
+  if (isSameNumber) return "var(--p-primary-soft)";
+  if (isPeer) return "var(--p-primary-soft)";
+  return isClue ? "var(--p-cell-hover)" : "var(--p-cell)";
+}
+
+function getHighlightClass(
+  isSelected: boolean,
+  isPeer: boolean,
+  isSameNumber: boolean,
+  isConflict: boolean
+): string {
+  if (isSelected) return "cell-selected";
+  if (isConflict) return "cell-conflict";
+  if (isSameNumber) return "cell-same-number";
+  if (isPeer) return "cell-peer";
+  return "";
 }
 
 function NotesGrid({ notes }: { notes: Set<number> }) {
@@ -40,7 +63,8 @@ function NotesGrid({ notes }: { notes: Set<number> }) {
       {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
         <span
           key={d}
-          className="flex items-center justify-center text-[9px] leading-none text-slate-500 dark:text-slate-400"
+          className="flex items-center justify-center text-[9px] leading-none"
+          style={{ color: "var(--p-text-muted)" }}
           data-note-digit={d}
         >
           {notes.has(d) ? d : ""}
@@ -57,14 +81,14 @@ export default function Cell({
   onClick,
 }: CellProps) {
   const borderClasses = getBorderClasses(row, col);
-  const highlightClasses = getHighlightClasses(isClue, isSelected, isPeer, isSameNumber, isConflict);
+  const highlightClass = getHighlightClass(isSelected, isPeer, isSameNumber, isConflict);
+  const bgColor = getHighlightBg(isClue, isSelected, isPeer, isSameNumber, isConflict);
 
-  const baseClasses =
-    "flex items-center justify-center text-lg select-none transition-colors duration-150 cursor-pointer";
-
-  const textClasses = isConflict && !isSelected
-    ? "font-normal text-red-700 dark:text-red-400"
-    : isClue ? "font-bold text-slate-900 dark:text-slate-100" : "font-normal text-brand-800 dark:text-brand-300";
+  const textColor = isConflict && !isSelected
+    ? "var(--p-error)"
+    : isClue
+      ? "var(--p-text)"
+      : "var(--p-primary)";
 
   const hasNotes = notes && notes.size > 0 && value === 0;
 
@@ -79,7 +103,13 @@ export default function Cell({
       tabIndex={0}
       aria-readonly={isClue ? true : undefined}
       aria-selected={isSelected ? true : undefined}
-      className={`${baseClasses} ${hasNotes ? "" : textClasses} ${highlightClasses} ${borderClasses} border-slate-800 dark:border-slate-500`}
+      className={`flex items-center justify-center text-lg select-none transition-colors duration-150 cursor-pointer ${highlightClass} ${borderClasses}`}
+      style={{
+        background: bgColor,
+        color: hasNotes ? undefined : textColor,
+        fontWeight: isClue ? 700 : 400,
+        borderColor: getBorderColor(row, col),
+      }}
       onClick={() => onClick?.(row, col)}
     >
       {hasNotes ? <NotesGrid notes={notes} /> : value > 0 ? value : ""}
