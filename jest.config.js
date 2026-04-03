@@ -8,9 +8,10 @@ const config = {
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testPathIgnorePatterns: [
-    "<rootDir>/node_modules/",
-    "<rootDir>/.next/",
-    "<rootDir>/e2e/",
+    "/node_modules/",
+    "/.next/",
+    "/e2e/",
+    "\\.spec\\.ts$",
   ],
   transform: {
     "^.+\\.tsx?$": [
@@ -20,6 +21,8 @@ const config = {
       },
     ],
   },
+  // Run tests sequentially to avoid race conditions on shared Supabase instance
+  maxWorkers: 1,
 };
 
 module.exports = config;

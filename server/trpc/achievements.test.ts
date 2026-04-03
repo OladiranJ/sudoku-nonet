@@ -26,6 +26,7 @@ import { createCallerFactory } from "./init";
 import { appRouter } from "./router";
 import { createServerClient } from "@/server/db/client";
 import type { Session } from "@supabase/supabase-js";
+import { cleanupTestUsers } from "@/server/test-utils";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -42,6 +43,8 @@ describe("achievement system", () => {
   let testSession: Session;
 
   beforeAll(async () => {
+    await cleanupTestUsers(admin, ["test-achievement@nonet-test.local"]);
+
     // Create test user
     const { data, error } = await admin.auth.admin.createUser({
       email: "test-achievement@nonet-test.local",

@@ -31,6 +31,7 @@ import type { Session } from "@supabase/supabase-js";
 import { createCallerFactory } from "@/server/trpc/init";
 import { appRouter } from "@/server/trpc/router";
 import { createServerClient } from "@/server/db/client";
+import { cleanupTestUsers } from "@/server/test-utils";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -56,6 +57,12 @@ let regularUserId: string;
 let regularSession: Session;
 
 beforeAll(async () => {
+  // Clean up stale data from previous runs
+  await cleanupTestUsers(supabaseAdmin, [
+    "admin-test-13@nonet-test.local",
+    "regular-test-13@nonet-test.local",
+  ]);
+
   const anonClient = createClient(SUPABASE_URL, ANON_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
